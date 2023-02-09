@@ -7,6 +7,7 @@
 	"log_level": 1,
 	"double_strategy": "partial",
 	"prefix": "test_",
-	"should_exit": false,
+	"should_exit": true,
+	"should_maximize": true,
 	"suffix": ".gd"
 }

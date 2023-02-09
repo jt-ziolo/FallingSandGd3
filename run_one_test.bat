@@ -1,0 +1,1 @@
+godot -d -s --path .\godot addons\gut\gut_cmdln.gd -gselect=test_basic.gd

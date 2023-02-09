@@ -16,16 +16,16 @@ export(Array, Resource) var interactions_first
 export(Array, Resource) var interactions
 export(Array, Resource) var interactions_last
 
-var _paint_coords = []
-var _selected_type
+var _paint_coords: Array = []
+var _selected_type: GrainType
 
-var _grains_by_coord = {}
+var _grains_by_coord: Dictionary = {}
 
 # 1000.0 milliseconds per second / times per second to yield seconds
-var _times_per_second = 800.0
-var _process_every = 1.0 / _times_per_second
+var _times_per_second: float = 800.0
+var _process_every: float = 1.0 / _times_per_second
 
-var _time_since_last_process = 10000.0  # must start high
+var _time_since_last_process: float = 10000.0  # must start high
 
 
 func process_brush_input():
@@ -45,7 +45,6 @@ func is_valid_coord(coord):
 
 # Interactions include movement. Each interaction is an instruction for what to
 # do when one grain meets another grain (or no grain) in some given direction.
-# More info in interaction.gd
 func _apply_interactions():
 	var skip_because_changed = []
 
@@ -93,6 +92,8 @@ func _apply_interactions():
 			grain_type_other = null
 			if _grains_by_coord.has(coord_other):
 				grain_type_other = _grains_by_coord[coord_other]
+			if grain_type_self == grain_type_other:
+				continue  # TODO: possibly add back in if we can optimize this
 			var direction = directions[j]
 			# Apply interactions
 			var input = [grain_type_self, grain_type_other]

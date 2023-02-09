@@ -11,6 +11,12 @@ data_*/
 mono_crash.*.json
 
 # submodules
+addons/
+## GUT addon
+.gut_editor_shortcuts.cfg
+asset_lib*
+BigFont*
+gut_panel*
 
 # System/tool-specific ignores
 .directory

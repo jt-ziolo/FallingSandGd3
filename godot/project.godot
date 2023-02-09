@@ -40,6 +40,16 @@ _global_script_classes=[ {
 "path": "res://scripts/grid.gd"
 }, {
 "base": "Reference",
+"class": "GutHookScript",
+"language": "GDScript",
+"path": "res://addons/gut/hook_script.gd"
+}, {
+"base": "Node",
+"class": "GutTest",
+"language": "GDScript",
+"path": "res://addons/gut/test.gd"
+}, {
+"base": "Reference",
 "class": "HelperFunctions",
 "language": "GDScript",
 "path": "res://scripts/helper_functions.gd"
@@ -66,6 +76,8 @@ _global_script_class_icons={
 "GradientColorRect": "",
 "GrainType": "",
 "Grid": "",
+"GutHookScript": "",
+"GutTest": "",
 "HelperFunctions": "",
 "Interaction": "",
 "InteractionBase": "",
@@ -77,6 +89,10 @@ _global_script_class_icons={
 config/name="FallingSandGd3"
 run/main_scene="res://root.tscn"
 config/icon="res://icon.png"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/gut/plugin.cfg" )
 
 [gui]
 

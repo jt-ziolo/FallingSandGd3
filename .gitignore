@@ -23,5 +23,6 @@ gut_panel*
 *~
 .DS_Store
 .vscode/
+*.code-workspace
 
 # temporary generated files

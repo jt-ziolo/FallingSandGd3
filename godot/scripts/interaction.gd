@@ -10,32 +10,32 @@ extends InteractionBase
 #	REPLACE_OTHER = The other grain is replaced by the new grain type
 #	REPLACE_BOTH = Both grains are replaced by the new grain type
 # TODO: add more
-enum Behavior {
-	SWAP,
-	REPLACE_SELF,
-	REPLACE_OTHER,
-	REPLACE_BOTH
-}
+enum Behavior { SWAP, REPLACE_SELF, REPLACE_OTHER, REPLACE_BOTH }
 
-
-export(Resource) var export_grain_type_self = null
-export(Resource) var export_grain_type_other = null 
-export var export_direction = Direction.DOWN
+export var direction = Direction.DOWN
 export(Behavior) var behavior = Behavior.SWAP
-export(Resource) var export_grain_type_new = null
-export(float, 0, 1) var export_likelihood = 1.0
+export(Resource) var grain_type_new = null
+export(float, 0, 1) var likelihood = 1.0
+export(Resource) var grain_type_self = null
+export(Resource) var grain_type_other = null
 
 
-# TODO: setting these here does not seem to work
-func _ready():
-	grain_type_self = export_grain_type_self
-	grain_type_other = export_grain_type_other
-	direction = export_direction
-	grain_type_new = export_grain_type_new
-	likelihood = export_likelihood
+func get_grain_type_self():
+	return grain_type_self
 
 
-# See interaction_base.gd, grid.gd
+func get_grain_type_other():
+	return grain_type_other
+
+
+func get_likelihood(p_direction):
+	return likelihood
+
+
+func is_match_direction(p_direction):
+	return p_direction == direction
+
+
 func apply_interaction(input):
 	match behavior:
 		Behavior.SWAP:

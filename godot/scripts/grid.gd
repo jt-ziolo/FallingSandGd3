@@ -3,7 +3,7 @@ extends Node
 # Holds all grains, gets player input and then applies interactions including
 # movement to all grains before sending data for the draw update call to Draw
 
-const HelperFunctions = preload("res://scripts/helper_functions.gd") 
+const HelperFunctions = preload("res://scripts/helper_functions.gd")
 const Direction = preload("res://scripts/direction.gd")
 const GrainType = preload("res://scripts/grain_type.gd")
 
@@ -11,28 +11,28 @@ signal transmit_colors(colors)
 
 # Three interaction arrays, needed to allow for prioritization. The elements
 # within each array get shuffled during the processing step, but the arrays are
-# processed in the order of _first, normal then _last 
-export (Array, Resource) var interactions_first
-export (Array, Resource) var interactions
-export (Array, Resource) var interactions_last
+# processed in the order of _first, normal then _last
+export(Array, Resource) var interactions_first
+export(Array, Resource) var interactions
+export(Array, Resource) var interactions_last
 
-var paint_coords = []
-var selected_type
+var _paint_coords = []
+var _selected_type
 
-var grains_by_coord = {}
+var _grains_by_coord = {}
 
 # 1000.0 milliseconds per second / times per second to yield seconds
-var times_per_second = 800.0
-var process_every = 1.0/times_per_second
+var _times_per_second = 800.0
+var _process_every = 1.0 / _times_per_second
 
-var time_since_last_process = 10000.0 # must start high
+var _time_since_last_process = 10000.0  # must start high
 
 
 func process_brush_input():
-	for coord in paint_coords:
+	for coord in _paint_coords:
 		if not is_valid_coord(coord):
 			continue
-		grains_by_coord[coord] = selected_type
+		_grains_by_coord[coord] = _selected_type
 
 
 func is_valid_coord(coord):
@@ -47,7 +47,7 @@ func is_valid_coord(coord):
 # do when one grain meets another grain (or no grain) in some given direction.
 # More info in interaction.gd
 func _apply_interactions():
-	var skip_because_changed = [] 
+	var skip_because_changed = []
 
 	var directions = {
 		[0, -1]: Direction.UP,
@@ -60,7 +60,7 @@ func _apply_interactions():
 		[-1, -1]: Direction.UP_LEFT,
 	}
 
-	# Will iterate through grains_by_coord and visit each boundary (direction)
+	# Will iterate through _grains_by_coord and visit each boundary (direction)
 	# between the current grain and its neighbor. If there is an interaction
 	# and the neighbor has not been changed yet, then the interaction is
 	# applied. If that interaction results in a change in the type of the
@@ -68,10 +68,10 @@ func _apply_interactions():
 	# the type of the current grain, then no other interactions are evaluated
 	# for the current grain this frame, otherwise interactions along other
 	# directions are allowed to occur
-	var new_grains_by_coord = grains_by_coord.duplicate(true) # deep copy TODO: is it necessary?
+	var new_grains_by_coord = _grains_by_coord.duplicate(true)  # deep copy TODO: is it necessary?
 	var interaction_arrays = [interactions_first, interactions, interactions_last]
-	for coord_self in grains_by_coord.keys():
-		var grain_type_self = grains_by_coord[coord_self]
+	for coord_self in _grains_by_coord.keys():
+		var grain_type_self = _grains_by_coord[coord_self]
 		if skip_because_changed.has(coord_self):
 			continue
 		var grain_type_other = null
@@ -91,12 +91,12 @@ func _apply_interactions():
 			if skip_because_changed.has(coord_other):
 				continue
 			grain_type_other = null
-			if grains_by_coord.has(coord_other):
-				grain_type_other = grains_by_coord[coord_other]
+			if _grains_by_coord.has(coord_other):
+				grain_type_other = _grains_by_coord[coord_other]
 			var direction = directions[j]
 			# Apply interactions
 			var input = [grain_type_self, grain_type_other]
-			
+
 			for interaction_array in interaction_arrays:
 				# Shuffling interactions too. Priority will be taken care of by
 				# having three arrays
@@ -104,7 +104,12 @@ func _apply_interactions():
 
 				for k in shuffled_interaction_array:
 					var random_0_to_1 = rand_range(0, 1)
-					if not k.is_match(input, direction, random_0_to_1):
+					if random_0_to_1 > k.get_likelihood(direction):
+						continue
+					var check_match = k.is_match_direction(direction)
+					check_match = check_match and (input[0] == k.get_grain_type_self())
+					check_match = check_match and (input[1] == k.get_grain_type_other())
+					if not check_match:
 						continue
 					var output = k.apply_interaction(input)
 					if output[0] != grain_type_self:
@@ -113,10 +118,10 @@ func _apply_interactions():
 						force_directions_loop_break = true
 					if output[1] != grain_type_other:
 						# The grain type in the other square changed, so prevent it
-						# from being changed again this frame... otherwise there 
-						# will be many bugs (the input grains_by_coord dict does not
+						# from being changed again this frame... otherwise there
+						# will be many bugs (the input _grains_by_coord dict does not
 						# change in this loop, as one example)
-						skip_because_changed.append(coord_other) 
+						skip_because_changed.append(coord_other)
 					if output[0] == null:
 						new_grains_by_coord.erase(coord_self)
 					else:
@@ -125,23 +130,23 @@ func _apply_interactions():
 						new_grains_by_coord.erase(coord_other)
 					else:
 						new_grains_by_coord[coord_other] = output[1]
-	grains_by_coord = new_grains_by_coord
+	_grains_by_coord = new_grains_by_coord
 
 
 # Send colors to be drawn
 func _get_colors():
 	var color_coords = {}
-	for coord in grains_by_coord.keys():
-		var grain_type:GrainType = grains_by_coord[coord]
+	for coord in _grains_by_coord.keys():
+		var grain_type: GrainType = _grains_by_coord[coord]
 		color_coords[coord] = grain_type.color
 	return color_coords
-	
+
 
 func _process(delta):
-	time_since_last_process += delta
-	if time_since_last_process < process_every:
+	_time_since_last_process += delta
+	if _time_since_last_process < _process_every:
 		return
-	time_since_last_process = 0.0
+	_time_since_last_process = 0.0
 	process_brush_input()
 	_apply_interactions()
 	var colors = _get_colors()
@@ -149,5 +154,5 @@ func _process(delta):
 
 
 func _on_Brush_painted(p_paint_coords, selected_grain_type):
-	paint_coords = p_paint_coords
-	selected_type = selected_grain_type
+	_paint_coords = p_paint_coords
+	_selected_type = selected_grain_type

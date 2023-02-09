@@ -1,0 +1,99 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node",
+"class": "Brush",
+"language": "GDScript",
+"path": "res://scripts/brush.gd"
+}, {
+"base": "Reference",
+"class": "Direction",
+"language": "GDScript",
+"path": "res://scripts/direction.gd"
+}, {
+"base": "Node2D",
+"class": "Draw",
+"language": "GDScript",
+"path": "res://scripts/draw.gd"
+}, {
+"base": "ColorRect",
+"class": "GradientColorRect",
+"language": "GDScript",
+"path": "res://scripts/gradient_color_rect.gd"
+}, {
+"base": "Resource",
+"class": "GrainType",
+"language": "GDScript",
+"path": "res://scripts/grain_type.gd"
+}, {
+"base": "Node",
+"class": "Grid",
+"language": "GDScript",
+"path": "res://scripts/grid.gd"
+}, {
+"base": "Reference",
+"class": "HelperFunctions",
+"language": "GDScript",
+"path": "res://scripts/helper_functions.gd"
+}, {
+"base": "InteractionBase",
+"class": "Interaction",
+"language": "GDScript",
+"path": "res://scripts/interaction.gd"
+}, {
+"base": "Resource",
+"class": "InteractionBase",
+"language": "GDScript",
+"path": "res://scripts/interaction_base.gd"
+}, {
+"base": "InteractionBase",
+"class": "InteractionGravity",
+"language": "GDScript",
+"path": "res://scripts/interaction_gravity.gd"
+} ]
+_global_script_class_icons={
+"Brush": "",
+"Direction": "",
+"Draw": "",
+"GradientColorRect": "",
+"GrainType": "",
+"Grid": "",
+"HelperFunctions": "",
+"Interaction": "",
+"InteractionBase": "",
+"InteractionGravity": ""
+}
+
+[application]
+
+config/name="FallingSandGd3"
+run/main_scene="res://root.tscn"
+config/icon="res://icon.png"
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+
+[input]
+
+paint={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

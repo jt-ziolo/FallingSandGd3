@@ -20,5 +20,5 @@ func is_match_direction(p_direction) -> bool:
 	return false
 
 
-func apply_interaction(input):
+func get_interaction(input):
 	return [input[0], input[1]]

@@ -3,11 +3,12 @@ extends Node
 # Holds all grains, gets player input and then applies interactions including
 # movement to all grains before sending data for the draw update call to Draw
 
+const CoordinateHashSet = preload("res://scripts/CoordinateHashSet.cs")
 const HelperFunctions = preload("res://scripts/helper_functions.gd")
 const Direction = preload("res://scripts/direction.gd")
 const GrainType = preload("res://scripts/grain_type.gd")
 
-signal transmit_colors(colors)
+signal colors_transmitted(colors)
 
 # Three interaction arrays, needed to allow for prioritization. The elements
 # within each array get shuffled during the processing step, but the arrays are
@@ -16,38 +17,52 @@ export(Array, Resource) var interactions_first
 export(Array, Resource) var interactions
 export(Array, Resource) var interactions_last
 
+var _skip_set: CoordinateHashSet = CoordinateHashSet.new()
+
 var _paint_coords: Array = []
 var _selected_type: GrainType
 
 var _grains_by_coord: Dictionary = {}
 
 # 1000.0 milliseconds per second / times per second to yield seconds
-var _times_per_second: float = 800.0
-var _process_every: float = 1.0 / _times_per_second
+#var _times_per_second: float = 800.0
+#var _process_every: float = 1.0 / _times_per_second
 
-var _time_since_last_process: float = 10000.0  # must start high
+#var _time_since_last_process: float = 10000.0  # must start high
+
+var _viewport_rect_x_min: float
+var _viewport_rect_x_max: float
+var _viewport_rect_y_min: float
+var _viewport_rect_y_max: float
 
 
-func process_brush_input():
+func _ready():
+	_viewport_rect_x_min = get_viewport().get_visible_rect().position[0]
+	_viewport_rect_x_max = get_viewport().get_visible_rect().end[0]
+	_viewport_rect_y_min = get_viewport().get_visible_rect().position[1]
+	_viewport_rect_y_max = get_viewport().get_visible_rect().end[1]
+
+
+func _process_brush_input():
 	for coord in _paint_coords:
-		if not is_valid_coord(coord):
+		if not _is_valid_coord(coord):
 			continue
 		_grains_by_coord[coord] = _selected_type
 
 
-func is_valid_coord(coord):
-	var viewport_rect = get_viewport().get_visible_rect()
-	if typeof(coord) != TYPE_VECTOR2:
-		var vec2 = Vector2(coord[0], coord[1])
-		return viewport_rect.has_point(vec2)
-	return viewport_rect.has_point(coord)
+func _is_valid_coord(coord):
+	var x = coord[0] as float
+	var y = coord[1] as float
+	if _viewport_rect_x_min > x or _viewport_rect_x_max < x:
+		return false
+	if _viewport_rect_y_min > y or _viewport_rect_y_max < y:
+		return false
+	return true
 
 
 # Interactions include movement. Each interaction is an instruction for what to
 # do when one grain meets another grain (or no grain) in some given direction.
-func _apply_interactions():
-	var skip_because_changed = []
-
+func _process_interactions():
 	var directions = {
 		[0, -1]: Direction.UP,
 		[1, -1]: Direction.UP_RIGHT,
@@ -59,6 +74,8 @@ func _apply_interactions():
 		[-1, -1]: Direction.UP_LEFT,
 	}
 
+	_skip_set.Clear()
+
 	# Will iterate through _grains_by_coord and visit each boundary (direction)
 	# between the current grain and its neighbor. If there is an interaction
 	# and the neighbor has not been changed yet, then the interaction is
@@ -67,11 +84,11 @@ func _apply_interactions():
 	# the type of the current grain, then no other interactions are evaluated
 	# for the current grain this frame, otherwise interactions along other
 	# directions are allowed to occur
-	var new_grains_by_coord: Dictionary = {}  # _grains_by_coord.duplicate(true)  # deep copy TODO: is it necessary?
+	var new_grains_by_coord: Dictionary = _grains_by_coord.duplicate(true)  # deep copy TODO: is it necessary?
 	var interaction_arrays = [interactions_first, interactions, interactions_last]
 	for coord_self in _grains_by_coord.keys():
 		var grain_type_self = _grains_by_coord[coord_self]
-		if skip_because_changed.has(coord_self):
+		if _skip_set.Contains(coord_self[0], coord_self[1]):
 			continue
 		var grain_type_other = null
 		var force_directions_loop_break = false
@@ -85,9 +102,9 @@ func _apply_interactions():
 				force_directions_loop_break = false
 				break
 			var coord_other = [coord_self[0] + j[0], coord_self[1] + j[1]]
-			if !is_valid_coord(coord_other):
+			if !_is_valid_coord(coord_other):
 				continue
-			if skip_because_changed.has(coord_other):
+			if _skip_set.Contains(coord_other[0], coord_other[1]):
 				continue
 			grain_type_other = null
 			if _grains_by_coord.has(coord_other):
@@ -112,7 +129,7 @@ func _apply_interactions():
 					check_match = check_match and (input[1] == k.get_grain_type_other())
 					if not check_match:
 						continue
-					var output = k.apply_interaction(input)
+					var output = k.get_interaction(input)
 					if output[0] != grain_type_self:
 						# The grain type in this square changed, so break out of
 						# the directions loop, see below for more details on why
@@ -122,7 +139,7 @@ func _apply_interactions():
 						# from being changed again this frame... otherwise there
 						# will be many bugs (the input _grains_by_coord dict does not
 						# change in this loop, as one example)
-						skip_because_changed.append(coord_other)
+						_skip_set.Add(coord_other[0], coord_other[1])
 					if output[0] != null:
 						new_grains_by_coord[coord_self] = output[0]
 					if output[1] != null:
@@ -140,14 +157,14 @@ func _get_colors():
 
 
 func _process(delta):
-	_time_since_last_process += delta
-	if _time_since_last_process < _process_every:
-		return
-	_time_since_last_process = 0.0
-	process_brush_input()
-	_apply_interactions()
+	# _time_since_last_process += delta
+	# if _time_since_last_process < _process_every:
+	# return
+	# _time_since_last_process = 0.0
+	_process_brush_input()
+	_process_interactions()
 	var colors = _get_colors()
-	emit_signal("transmit_colors", colors)
+	emit_signal("colors_transmitted", colors)
 
 
 func _on_Brush_painted(p_paint_coords, selected_grain_type):

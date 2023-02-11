@@ -11,6 +11,8 @@ func _draw():
 		draw_rect(Rect2(pos_vec2, Vector2(1, 1)), _color_coords[pos], true, 1.0, false)
 
 
-func _on_Grid_transmit_colors(colors):
+func _on_Grid_colors_transmitted(colors: Dictionary):
+	if colors.empty():
+		return
 	_color_coords = colors
 	update()

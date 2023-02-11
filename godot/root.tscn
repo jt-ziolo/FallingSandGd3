@@ -30,5 +30,5 @@ script = ExtResource( 6 )
 [node name="Draw" type="Node2D" parent="."]
 script = ExtResource( 1 )
 
-[connection signal="transmit_colors" from="Grid" to="Draw" method="_on_Grid_transmit_colors"]
+[connection signal="colors_transmitted" from="Grid" to="Draw" method="_on_Grid_colors_transmitted"]
 [connection signal="painted" from="Brush" to="Grid" method="_on_Brush_painted"]

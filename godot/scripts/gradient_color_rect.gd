@@ -11,7 +11,11 @@ func _process(_delta):
 
 func _draw():
 	var size = get_viewport().get_visible_rect().size
-	var location: float = 0.0
+
+	# start with a negative offset since the first iteration of the loop will
+	# add _width again, and we want to start at position 0
+	var location: float = -1 * _width
+
 	var alpha: float = 0.05
 	while location < size[1]:
 		location += _width

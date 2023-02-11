@@ -36,7 +36,7 @@ func is_match_direction(p_direction):
 	return p_direction == direction
 
 
-func apply_interaction(input):
+func get_interaction(input):
 	match behavior:
 		Behavior.SWAP:
 			return [input[1], input[0]]

@@ -67,7 +67,7 @@ func _apply_interactions():
 	# the type of the current grain, then no other interactions are evaluated
 	# for the current grain this frame, otherwise interactions along other
 	# directions are allowed to occur
-	var new_grains_by_coord = _grains_by_coord.duplicate(true)  # deep copy TODO: is it necessary?
+	var new_grains_by_coord: Dictionary = {}  # _grains_by_coord.duplicate(true)  # deep copy TODO: is it necessary?
 	var interaction_arrays = [interactions_first, interactions, interactions_last]
 	for coord_self in _grains_by_coord.keys():
 		var grain_type_self = _grains_by_coord[coord_self]
@@ -123,13 +123,9 @@ func _apply_interactions():
 						# will be many bugs (the input _grains_by_coord dict does not
 						# change in this loop, as one example)
 						skip_because_changed.append(coord_other)
-					if output[0] == null:
-						new_grains_by_coord.erase(coord_self)
-					else:
+					if output[0] != null:
 						new_grains_by_coord[coord_self] = output[0]
-					if output[1] == null:
-						new_grains_by_coord.erase(coord_other)
-					else:
+					if output[1] != null:
 						new_grains_by_coord[coord_other] = output[1]
 	_grains_by_coord = new_grains_by_coord
 
@@ -151,7 +147,6 @@ func _process(delta):
 	process_brush_input()
 	_apply_interactions()
 	var colors = _get_colors()
-	print("should show")
 	emit_signal("transmit_colors", colors)
 
 

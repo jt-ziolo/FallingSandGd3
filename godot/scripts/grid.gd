@@ -84,12 +84,12 @@ func _process_interactions():
 	# the type of the current grain, then no other interactions are evaluated
 	# for the current grain this frame, otherwise interactions along other
 	# directions are allowed to occur
-	var new_grains_by_coord: Dictionary = _grains_by_coord.duplicate(true)  # deep copy TODO: is it necessary?
+	var new_grains_by_coord: Dictionary = _grains_by_coord.duplicate(true)
 	var interaction_arrays = [interactions_first, interactions, interactions_last]
 	for coord_self in _grains_by_coord.keys():
-		var grain_type_self = _grains_by_coord[coord_self]
 		if _skip_set.Contains(coord_self[0], coord_self[1]):
 			continue
+		var grain_type_self = _grains_by_coord[coord_self]
 		var grain_type_other = null
 		var force_directions_loop_break = false
 
@@ -111,9 +111,9 @@ func _process_interactions():
 				grain_type_other = _grains_by_coord[coord_other]
 			if grain_type_self == grain_type_other:
 				continue  # TODO: possibly add back in if we can optimize this
+
 			var direction = directions[j]
-			# Apply interactions
-			var input = [grain_type_self, grain_type_other]
+			var current_pair = [grain_type_self, grain_type_other]
 
 			for interaction_array in interaction_arrays:
 				# Shuffling interactions too. Priority will be taken care of by
@@ -125,25 +125,28 @@ func _process_interactions():
 					if random_0_to_1 > k.get_likelihood(direction):
 						continue
 					var check_match = k.is_match_direction(direction)
-					check_match = check_match and (input[0] == k.get_grain_type_self())
-					check_match = check_match and (input[1] == k.get_grain_type_other())
+					check_match = check_match and (current_pair[0] == k.get_grain_type_self())
+					check_match = check_match and (current_pair[1] == k.get_grain_type_other())
 					if not check_match:
 						continue
-					var output = k.get_interaction(input)
+					var output = k.get_interaction(current_pair)
 					if output[0] != grain_type_self:
 						# The grain type in this square changed, so break out of
-						# the directions loop, see below for more details on why
+						# the directions loop, because we don't want to allow
+						# multiple changes of one grain on the same frame
 						force_directions_loop_break = true
 					if output[1] != grain_type_other:
 						# The grain type in the other square changed, so prevent it
-						# from being changed again this frame... otherwise there
-						# will be many bugs (the input _grains_by_coord dict does not
-						# change in this loop, as one example)
+						# from being changed again this frame
 						_skip_set.Add(coord_other[0], coord_other[1])
 					if output[0] != null:
 						new_grains_by_coord[coord_self] = output[0]
+					else:
+						new_grains_by_coord.erase(coord_self)
 					if output[1] != null:
 						new_grains_by_coord[coord_other] = output[1]
+					else:
+						new_grains_by_coord.erase(coord_other)
 	_grains_by_coord = new_grains_by_coord
 
 

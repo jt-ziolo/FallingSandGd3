@@ -48,6 +48,7 @@ func _process_brush_input():
 		if not _is_valid_coord(coord):
 			continue
 		_grains_by_coord[coord] = _selected_type
+	_paint_coords.clear()
 
 
 func _is_valid_coord(coord):

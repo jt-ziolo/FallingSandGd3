@@ -151,6 +151,7 @@ func _process(delta):
 	process_brush_input()
 	_apply_interactions()
 	var colors = _get_colors()
+	print("should show")
 	emit_signal("transmit_colors", colors)
 
 

@@ -106,6 +106,10 @@ paint={
  ]
 }
 
+[mono]
+
+project/assembly_name="FallingSandGd3"
+
 [physics]
 
 common/enable_pause_aware_picking=true

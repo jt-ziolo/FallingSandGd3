@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
+"base": "Node2D",
 "class": "Brush",
 "language": "GDScript",
 "path": "res://scripts/brush.gd"
@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/grain_type.gd"
 }, {
-"base": "Node",
+"base": "Node2D",
 "class": "Grid",
 "language": "GDScript",
 "path": "res://scripts/grid.gd"

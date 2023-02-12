@@ -1,5 +1,5 @@
 class_name Grid
-extends Node
+extends Node2D
 # Holds all grains, gets player input and then applies interactions including
 # movement to all grains before sending data for the draw update call to Draw
 
@@ -16,6 +16,7 @@ signal colors_transmitted(colors)
 export(Array, Resource) var interactions_first
 export(Array, Resource) var interactions
 export(Array, Resource) var interactions_last
+export(bool) var has_floor = true
 
 var _skip_set: CoordinateHashSet = CoordinateHashSet.new()
 
@@ -30,35 +31,24 @@ var _grains_by_coord: Dictionary = {}
 
 #var _time_since_last_process: float = 10000.0  # must start high
 
-var _viewport_rect_x_min: float
-var _viewport_rect_x_max: float
-var _viewport_rect_y_min: float
-var _viewport_rect_y_max: float
+var _grid_area_rect: Rect2
 
 
 func _ready():
-	_viewport_rect_x_min = get_viewport().get_visible_rect().position[0]
-	_viewport_rect_x_max = get_viewport().get_visible_rect().end[0]
-	_viewport_rect_y_min = get_viewport().get_visible_rect().position[1]
-	_viewport_rect_y_max = get_viewport().get_visible_rect().end[1]
+	_grid_area_rect = get_viewport_rect()
 
 
 func _process_brush_input():
 	for coord in _paint_coords:
-		if not _is_valid_coord(coord):
+		var coord_as_int_array = [coord.x as int, coord.y as int]
+		if not _is_valid_coord(coord_as_int_array):
 			continue
-		_grains_by_coord[coord] = _selected_type
+		_grains_by_coord[coord_as_int_array] = _selected_type
 	_paint_coords.clear()
 
 
 func _is_valid_coord(coord):
-	var x = coord[0] as float
-	var y = coord[1] as float
-	if _viewport_rect_x_min > x or _viewport_rect_x_max < x:
-		return false
-	if _viewport_rect_y_min > y or _viewport_rect_y_max < y:
-		return false
-	return true
+	return _grid_area_rect.has_point(Vector2(coord[0], coord[1]))
 
 
 # Interactions include movement. Each interaction is an instruction for what to

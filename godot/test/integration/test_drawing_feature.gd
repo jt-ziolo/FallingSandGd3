@@ -16,6 +16,7 @@ class TestFeatureDrawing:
 		_draw = add_child_autofree(partial_double("res://scripts/draw.gd").new())
 		_grid.connect("colors_transmitted", _draw, "_on_Grid_colors_transmitted")
 		_grain_type = partial_double("res://scripts/grain_type.gd").new()
+		_brush.grain_types = [_grain_type]
 		assert_connected(_grid, _draw, "colors_transmitted", "_on_Grid_colors_transmitted")
 
 	# Test to see that a signal will be sent by the grid script with the

@@ -92,6 +92,9 @@ config/icon="res://icon.png"
 
 [display]
 
+window/size/width=644
+window/size/height=364
+window/vsync/use_vsync=false
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 

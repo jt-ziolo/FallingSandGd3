@@ -68,6 +68,11 @@ _global_script_classes=[ {
 "class": "InteractionGravity",
 "language": "GDScript",
 "path": "res://scripts/interaction_gravity.gd"
+}, {
+"base": "RichTextLabel",
+"class": "LabelMousePosition",
+"language": "GDScript",
+"path": "res://scripts/label_mouse_position.gd"
 } ]
 _global_script_class_icons={
 "Brush": "",
@@ -81,7 +86,8 @@ _global_script_class_icons={
 "HelperFunctions": "",
 "Interaction": "",
 "InteractionBase": "",
-"InteractionGravity": ""
+"InteractionGravity": "",
+"LabelMousePosition": ""
 }
 
 [application]

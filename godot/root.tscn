@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/draw.gd" type="Script" id=1]
 [ext_resource path="res://scripts/grid.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://interactions/sand_fall.tres" type="Resource" id=5]
 [ext_resource path="res://scripts/gradient_color_rect.gd" type="Script" id=6]
 [ext_resource path="res://scripts/label_brush.gd" type="Script" id=7]
+[ext_resource path="res://scripts/label_mouse_position.gd" type="Script" id=8]
 
 [sub_resource type="ShaderMaterial" id=1]
 
@@ -66,19 +67,34 @@ margin_top = 10.0
 
 [node name="LabelBrush" type="RichTextLabel" parent="ViewportContainer/Viewport/VBoxContainer"]
 margin_right = 118.0
-margin_bottom = 170.0
+margin_bottom = 151.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
-bbcode_text = "{0}
-Size: {1}
-Mode: {2}
-"
-text = "{0}
-Size: {1}
-Mode: {2}
-"
+bbcode_text = "[color=maroon]Sand[/color]
+Size: 3
+Mode: Add"
+text = "Sand
+Size: 3
+Mode: Add"
+fit_content_height = true
+scroll_active = false
 script = ExtResource( 7 )
+_template_text = "[color={grain_color}]{grain_type}[/color]
+Size: {brush_size}
+Mode: {brush_mode}"
 
+[node name="LabelMousePosition" type="RichTextLabel" parent="ViewportContainer/Viewport/VBoxContainer"]
+margin_top = 155.0
+margin_right = 118.0
+margin_bottom = 170.0
+bbcode_enabled = true
+bbcode_text = "(0, 0)"
+text = "(0, 0)"
+fit_content_height = true
+scroll_active = false
+script = ExtResource( 8 )
+
+[connection signal="mouse_moved" from="Brush" to="ViewportContainer/Viewport/VBoxContainer/LabelMousePosition" method="_on_Brush_mouse_moved"]
 [connection signal="painted" from="Brush" to="ViewportContainer/Viewport/Grid" method="_on_Brush_painted"]
 [connection signal="colors_transmitted" from="ViewportContainer/Viewport/Grid" to="ViewportContainer/Viewport/Draw" method="_on_Grid_colors_transmitted"]

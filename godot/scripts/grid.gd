@@ -21,12 +21,6 @@ var _selected_type: GrainType
 
 var _grains_by_point: Dictionary = {}
 
-# 1000.0 milliseconds per second / times per second to yield seconds
-#var _times_per_second: float = 800.0
-#var _process_every: float = 1.0 / _times_per_second
-
-#var _time_since_last_process: float = 10000.0  # must start high
-
 var _grid_area_rect: Rect2
 var _interaction_directions_by_grain_type = {}
 
@@ -35,10 +29,9 @@ func _ready():
 
 func _process_brush_input():
 	for point in _paint_points:
-		var point_as_int_array = [point.x as int, point.y as int]
-		if not _is_valid_point(point_as_int_array):
+		if not _is_valid_point(point):
 			continue
-		_grains_by_point[point_as_int_array] = _selected_type
+		_grains_by_point[point] = _selected_type
 	_paint_points.clear()
 
 

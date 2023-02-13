@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource( 1 )
 human_friendly_name = "Sand"
-color = Color( 0.913725, 0.72549, 0.470588, 1 )
+color = Color( 0.823529, 0.705882, 0.54902, 1 )
+can_slide = false

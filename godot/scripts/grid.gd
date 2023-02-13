@@ -70,20 +70,92 @@ func _get_interaction_directions(grain_type):
 	_interaction_directions_by_grain_type[grain_type] = applicable_directions.AsGodotArray()
 	return _interaction_directions_by_grain_type[grain_type]
 
+# For grain types which slide, visit each point and if it is bordered on e.g.
+# UP/UP_RIGHT/UP_LEFT, move LEFT or RIGHT. Alternate between the two possible
+# move directions depending on the current row. If neither are open, do
+# nothing. Works for both UP/DOWN borders.
+func _process_sliding():
+	_skip_set.Clear()
+	for point_self in _grains_by_point.keys():
+		if _skip_set.Contains(point_self[0], point_self[1]):
+			continue
+		var grain_type = _grains_by_point[point_self]
+		if grain_type.viscosity >= 1.0:
+			continue
+		var random_0_to_1 = rand_range(0, 1)
+		if random_0_to_1 <= grain_type.viscosity:
+			continue
+		# Determine slide direction (and continue if neither are open)
+		#   Left
+		var is_valid_left = false
+		var point_other = [point_self[0] - 1, point_self[1]]
+		if _is_valid_point(point_other):
+			if not point_other in _grains_by_point:
+				is_valid_left = true
+		#	Right
+		var is_valid_right = false
+		point_other = [point_self[0] + 1, point_self[1]]
+		if _is_valid_point(point_other):
+			if not point_other in _grains_by_point:
+				is_valid_right = true
+		#	Decision
+		if not (is_valid_left or is_valid_right):
+			continue
+		var point_slide = [0, 0]
+		if is_valid_left:
+			if is_valid_right:
+				var slide_offset = -1
+				# Choose based upon the row, alternating for even vs. odd rows
+				var random_0_or_1 = randi() % 2
+				if random_0_or_1 == 0:
+					slide_offset = 1
+				point_slide = [point_self[0] + slide_offset, point_self[1]]
+			else:
+				point_slide = [point_self[0] - 1, point_self[1]]
+		else:
+			point_slide = [point_self[0] + 1, point_self[1]]
+		# Top
+		var offsets = [[-1, -1], [0, -1], [1, -1]]
+		var is_surrounded = true
+		for offset in offsets:
+			point_other = [point_self[0] + offset[0], point_self[1] + offset[1]]
+			if !_is_valid_point(point_other):
+				continue
+			if not point_other in _grains_by_point:
+				is_surrounded = false
+		if is_surrounded:
+			_grains_by_point[point_slide] = grain_type
+			_grains_by_point.erase(point_self)
+			_skip_set.Add(point_slide[0], point_slide[1])
+			continue
+		# Bottom
+		offsets = [[-1, 1], [0, 1], [1, 1]]
+		is_surrounded = true
+		for offset in offsets:
+			point_other = [point_self[0] + offset[0], point_self[1] + offset[1]]
+			if !_is_valid_point(point_other):
+				continue
+			if not point_other in _grains_by_point:
+				is_surrounded = false
+		if is_surrounded:
+			_grains_by_point[point_slide] = grain_type
+			_grains_by_point.erase(point_self)
+			_skip_set.Add(point_slide[0], point_slide[1])
+
+var direction_offsets = {
+	Direction.UP: [0, -1],
+	Direction.UP_RIGHT: [1, -1],
+	Direction.RIGHT: [1, 0],
+	Direction.DOWN_RIGHT: [1, 1],
+	Direction.DOWN: [0, 1],
+	Direction.DOWN_LEFT: [-1, 1],
+	Direction.LEFT: [-1, 0],
+	Direction.UP_LEFT: [-1, -1],
+}
 
 # Interactions include movement. Each interaction is an instruction for what to
 # do when one grain meets another grain (or no grain) in some given direction.
 func _process_interactions():
-	var direction_offsets = {
-		Direction.UP: [0, -1],
-		Direction.UP_RIGHT: [1, -1],
-		Direction.RIGHT: [1, 0],
-		Direction.DOWN_RIGHT: [1, 1],
-		Direction.DOWN: [0, 1],
-		Direction.DOWN_LEFT: [-1, 1],
-		Direction.LEFT: [-1, 0],
-		Direction.UP_LEFT: [-1, -1],
-	}
 
 	_skip_set.Clear()
 
@@ -174,6 +246,7 @@ func _process(delta):
 	# return
 	# _time_since_last_process = 0.0
 	_process_brush_input()
+	_process_sliding()
 	_process_interactions()
 	var colors = _get_colors()
 	emit_signal("colors_transmitted", colors)

@@ -6,6 +6,5 @@
 [resource]
 script = ExtResource( 1 )
 likelihood_down = 1.0
-likelihood_down_to_side = 0.5
-likelihood_to_side = 0.05
+likelihood_down_to_side = 0.05
 grain_type_self = ExtResource( 2 )

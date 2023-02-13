@@ -7,7 +7,6 @@ extends InteractionBase
 
 export(float, 0, 1) var likelihood_down = 1.0
 export(float, 0, 1) var likelihood_down_to_side = 0.05
-export(float, 0, 1) var likelihood_to_side = 0.0
 export(Resource) var grain_type_self = null
 export(Resource) var grain_type_other = null
 
@@ -28,10 +27,6 @@ func get_likelihood(p_direction):
 			return likelihood_down_to_side
 		Direction.DOWN_RIGHT:
 			return likelihood_down_to_side
-		Direction.LEFT:
-			return likelihood_to_side
-		Direction.RIGHT:
-			return likelihood_to_side
 		_:
 			return 0.0
 
@@ -43,10 +38,6 @@ func is_match_direction(p_direction):
 		Direction.DOWN_LEFT:
 			return true
 		Direction.DOWN_RIGHT:
-			return true
-		Direction.LEFT:
-			return true
-		Direction.RIGHT:
 			return true
 		_:
 			return false

@@ -36,13 +36,13 @@ func is_match_direction(p_direction):
 	return p_direction == direction
 
 
-func get_interaction(input):
+func get_interaction():
 	match behavior:
 		Behavior.SWAP:
-			return [input[1], input[0]]
+			return [grain_type_other, grain_type_new]
 		Behavior.REPLACE_SELF:
-			return [grain_type_new, input[1]]
+			return [grain_type_new, grain_type_other]
 		Behavior.REPLACE_OTHER:
-			return [input[0], grain_type_new]
+			return [grain_type_new, grain_type_new]
 		Behavior.REPLACE_BOTH:
 			return [grain_type_new, grain_type_new]

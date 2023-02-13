@@ -43,5 +43,5 @@ func is_match_direction(p_direction):
 			return false
 
 
-func get_interaction(input):
-	return [input[1], input[0]]
+func get_interaction():
+	return [grain_type_other, grain_type_self]

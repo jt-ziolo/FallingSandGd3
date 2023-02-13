@@ -129,16 +129,16 @@ func _process_interactions():
 
 			var current_pair = [grain_type_self, grain_type_other]
 
-			for k in interactions:
+			for interaction in interactions:
 				var random_0_to_1 = rand_range(0, 1)
-				if random_0_to_1 > k.get_likelihood(direction):
+				if random_0_to_1 > interaction.get_likelihood(direction):
 					continue
-				var check_match = k.is_match_direction(direction)
-				check_match = check_match and (current_pair[0] == k.get_grain_type_self())
-				check_match = check_match and (current_pair[1] == k.get_grain_type_other())
+				var check_match = interaction.is_match_direction(direction)
+				check_match = check_match and (current_pair[0] == interaction.get_grain_type_self())
+				check_match = check_match and (current_pair[1] == interaction.get_grain_type_other())
 				if not check_match:
 					continue
-				var output = k.get_interaction(current_pair)
+				var output = interaction.get_interaction()
 				if output[0] != grain_type_self:
 					# The grain type in this square changed, so break out of
 					# the directions loop, because we don't want to allow

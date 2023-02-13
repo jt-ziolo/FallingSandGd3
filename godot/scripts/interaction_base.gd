@@ -20,5 +20,5 @@ func is_match_direction(p_direction) -> bool:
 	return false
 
 
-func get_interaction(input):
-	return [input[0], input[1]]
+func get_interaction():
+	return [null, null]

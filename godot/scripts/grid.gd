@@ -115,22 +115,22 @@ func _process_sliding():
 		else:
 			point_slide = [point_self[0] + 1, point_self[1]]
 		# Top
-		var offsets = [[-1, -1], [0, -1], [1, -1]]
-		var is_surrounded = true
-		for offset in offsets:
-			point_other = [point_self[0] + offset[0], point_self[1] + offset[1]]
-			if !_is_valid_point(point_other):
-				continue
-			if not point_other in _grains_by_point:
-				is_surrounded = false
-		if is_surrounded:
-			_grains_by_point[point_slide] = grain_type
-			_grains_by_point.erase(point_self)
-			_skip_set.Add(point_slide[0], point_slide[1])
-			continue
+		# var offsets = [[-1, -1], [0, -1], [1, -1]]
+		# var is_surrounded = true
+		# for offset in offsets:
+		# 	point_other = [point_self[0] + offset[0], point_self[1] + offset[1]]
+		# 	if !_is_valid_point(point_other):
+		# 		continue
+		# 	if not point_other in _grains_by_point:
+		# 		is_surrounded = false
+		# if is_surrounded:
+		# 	_grains_by_point[point_slide] = grain_type
+		# 	_grains_by_point.erase(point_self)
+		# 	_skip_set.Add(point_slide[0], point_slide[1])
+		# 	continue
 		# Bottom
-		offsets = [[-1, 1], [0, 1], [1, 1]]
-		is_surrounded = true
+		var offsets = [[-1, 1], [0, 1], [1, 1]]
+		var is_surrounded = true
 		for offset in offsets:
 			point_other = [point_self[0] + offset[0], point_self[1] + offset[1]]
 			if !_is_valid_point(point_other):

@@ -11,7 +11,7 @@ class TestFeatureDrawing:
 
 	func before_each():
 		_grid = add_child_autofree(partial_double("res://scripts/grid.gd").new())
-		stub(_grid, "is_valid_coord").to_return(true)
+		stub(_grid, "is_valid_point").to_return(true)
 		_brush = add_child_autofree(partial_double("res://scripts/brush.gd").new())
 		_draw = add_child_autofree(partial_double("res://scripts/draw.gd").new())
 		_grid.connect("colors_transmitted", _draw, "_on_Grid_colors_transmitted")
@@ -30,14 +30,14 @@ class TestFeatureDrawing:
 		assert_signal_emitted_with_parameters(_grid, "colors_transmitted", [signal_param])
 
 		# Feed in the coordinate/grain_type pair
-		var coord = [100, 100]
-		_grid._grains_by_coord[coord] = _grain_type
-		assert_eq(_grid._grains_by_coord[coord], _grain_type)
+		var point = [100, 100]
+		_grid._grains_by_point[point] = _grain_type
+		assert_eq(_grid._grains_by_point[point], _grain_type)
 
 		# Check to see if the script will emit by itself
 		simulate(_grid, 1, 1)
 
-		signal_param = {coord: Color.tan}
+		signal_param = {point: Color.tan}
 		assert_signal_emitted(_grid, "colors_transmitted")
 		assert_signal_emitted_with_parameters(_grid, "colors_transmitted", [signal_param])
 

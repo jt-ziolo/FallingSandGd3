@@ -15,12 +15,9 @@ export(Array, Resource) var interactions
 export(bool) var has_floor = true
 
 var _skip_set: HashSetPoint = HashSetPoint.new()
-
 var _paint_points: Array = []
 var _selected_type: Element
-
 var _elements_by_point: Dictionary = {}
-
 var _grid_area_rect: Rect2
 var _interaction_directions_by_element = {}
 
@@ -114,20 +111,6 @@ func _process_sliding():
 				point_slide = [point_self[0] - 1, point_self[1]]
 		else:
 			point_slide = [point_self[0] + 1, point_self[1]]
-		# Top
-		# var offsets = [[-1, -1], [0, -1], [1, -1]]
-		# var is_surrounded = true
-		# for offset in offsets:
-		# 	point_other = [point_self[0] + offset[0], point_self[1] + offset[1]]
-		# 	if !_is_valid_point(point_other):
-		# 		continue
-		# 	if not point_other in _elements_by_point:
-		# 		is_surrounded = false
-		# if is_surrounded:
-		# 	_elements_by_point[point_slide] = element
-		# 	_elements_by_point.erase(point_self)
-		# 	_skip_set.Add(point_slide[0], point_slide[1])
-		# 	continue
 		# Bottom
 		var offsets = [[-1, 1], [0, 1], [1, 1]]
 		var is_surrounded = true
@@ -160,14 +143,15 @@ var direction_offsets = {
 func _process_interactions():
 	_skip_set.Clear()
 
-	# Will iterate through _elements_by_point and visit each boundary (direction)
-	# between the current element and its neighbor. If there is an interaction
-	# and the neighbor has not been changed yet, then the interaction is
-	# applied. If that interaction results in a change in the type of the
+	# Will iterate through _elements_by_point and visit each boundary
+	# (direction) between the current element and its neighbor. If there is an
+	# interaction and the neighbor has not been changed yet, then the
+	# interaction is applied. If that interaction results in a change in the
 	# neighbor's element, it is marked as changed. If it results in a change to
 	# the type of the current element, then no other interactions are evaluated
 	# for the current element this frame, otherwise interactions along other
 	# directions are allowed to occur
+
 	var new_elements_by_point: Dictionary = _elements_by_point.duplicate(true)
 	for point_self in _elements_by_point.keys():
 		if _skip_set.Contains(point_self[0], point_self[1]):
@@ -180,6 +164,7 @@ func _process_interactions():
 
 		# Get only the directions that apply to this element type
 		var relevant_directions = _get_interaction_directions(element_self)
+
 		# We shuffle directions.keys to prevent biases in interactions that
 		# would otherwise show up because of a fixed order
 		var shuffled_directions = HelperFunctions.nonmut_shuffle(relevant_directions)
@@ -232,7 +217,7 @@ func _process_interactions():
 	_elements_by_point = new_elements_by_point
 
 
-# Send colors to be drawn
+# Get colors to be drawn based on the elements in the grid
 func _get_colors():
 	var color_points = {}
 	for point in _elements_by_point.keys():
@@ -242,10 +227,6 @@ func _get_colors():
 
 
 func _process(delta):
-	# _time_since_last_process += delta
-	# if _time_since_last_process < _process_every:
-	# return
-	# _time_since_last_process = 0.0
 	_process_brush_input()
 	_process_sliding()
 	_process_interactions()

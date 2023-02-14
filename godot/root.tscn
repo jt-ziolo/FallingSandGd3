@@ -55,7 +55,7 @@ elements = [ ExtResource( 4 ), ExtResource( 9 ), ExtResource( 10 ) ]
 script = ExtResource( 2 )
 interactions = [ ExtResource( 5 ), ExtResource( 11 ) ]
 
-[node name="ColorRect" type="ColorRect" parent="ViewportContainer/Viewport"]
+[node name="ColorRectGradient" type="ColorRect" parent="ViewportContainer/Viewport"]
 material = SubResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -94,7 +94,7 @@ fit_content_height = true
 scroll_active = false
 script = ExtResource( 8 )
 
-[node name="MouseColorRect" type="ColorRect" parent="ViewportContainer/Viewport"]
+[node name="ColorRectMouse" type="ColorRect" parent="ViewportContainer/Viewport"]
 margin_left = 200.0
 margin_top = 200.0
 margin_right = 204.0
@@ -104,6 +104,6 @@ color = Color( 1, 1, 1, 0.588235 )
 script = ExtResource( 7 )
 
 [connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/LabelTopLeft" method="_on_Brush_mouse_moved"]
-[connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/MouseColorRect" method="_on_Brush_mouse_moved"]
+[connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/ColorRectMouse" method="_on_Brush_mouse_moved"]
 [connection signal="painted" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/Grid" method="_on_Brush_painted"]
 [connection signal="colors_transmitted" from="ViewportContainer/Viewport/Grid" to="ViewportContainer/Viewport/Draw" method="_on_Grid_colors_transmitted"]

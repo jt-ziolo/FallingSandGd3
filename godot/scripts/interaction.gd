@@ -39,10 +39,13 @@ func is_match_direction(p_direction):
 func get_interaction():
 	match behavior:
 		Behavior.SWAP:
-			return [element_other, element_new]
+			var result_other = element_self
+			if element_new != null:
+				result_other = element_new
+			return [element_other, result_other]
 		Behavior.REPLACE_SELF:
 			return [element_new, element_other]
 		Behavior.REPLACE_OTHER:
-			return [element_new, element_new]
+			return [element_self, element_new]
 		Behavior.REPLACE_BOTH:
 			return [element_new, element_new]

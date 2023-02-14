@@ -34,7 +34,6 @@ func test_element_colors_transmitted():
 	assert_eq(_grid._elements_by_point[point], _element)
 
 	# Check to see if the script will emit by itself
-	# Simulate twice, accounting for grid.is_ready
 	simulate(_grid, 5, 1)
 
 	signal_param = {point: Color.blue}

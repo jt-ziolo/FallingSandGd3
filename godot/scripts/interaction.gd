@@ -12,20 +12,20 @@ extends InteractionBase
 # TODO: add more
 enum Behavior { SWAP, REPLACE_SELF, REPLACE_OTHER, REPLACE_BOTH }
 
-export var direction = Direction.DOWN
+export var direction = Direction.SOUTH
 export(Behavior) var behavior = Behavior.SWAP
-export(Resource) var grain_type_new = null
+export(Resource) var element_new = null
 export(float, 0, 1) var likelihood = 1.0
-export(Resource) var grain_type_self = null
-export(Resource) var grain_type_other = null
+export(Resource) var element_self = null
+export(Resource) var element_other = null
 
 
-func get_grain_type_self():
-	return grain_type_self
+func get_element_self():
+	return element_self
 
 
-func get_grain_type_other():
-	return grain_type_other
+func get_element_other():
+	return element_other
 
 
 func get_likelihood(p_direction):
@@ -39,10 +39,10 @@ func is_match_direction(p_direction):
 func get_interaction():
 	match behavior:
 		Behavior.SWAP:
-			return [grain_type_other, grain_type_new]
+			return [element_other, element_new]
 		Behavior.REPLACE_SELF:
-			return [grain_type_new, grain_type_other]
+			return [element_new, element_other]
 		Behavior.REPLACE_OTHER:
-			return [grain_type_new, grain_type_new]
+			return [element_new, element_new]
 		Behavior.REPLACE_BOTH:
-			return [grain_type_new, grain_type_new]
+			return [element_new, element_new]

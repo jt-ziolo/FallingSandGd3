@@ -1,4 +1,4 @@
-class_name GradientColorRect
+class_name ColorRectGradient
 extends ColorRect
 
 var _background_color: Color = Color.darkgray

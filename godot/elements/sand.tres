@@ -1,9 +1,9 @@
 [gd_resource type="Resource" load_steps=2 format=2]
 
-[ext_resource path="res://scripts/grain_type.gd" type="Script" id=1]
+[ext_resource path="res://scripts/element.gd" type="Script" id=1]
 
 [resource]
 script = ExtResource( 1 )
 human_friendly_name = "Sand"
 color = Color( 0.823529, 0.705882, 0.54902, 1 )
-can_slide = false
+viscosity = 1.0

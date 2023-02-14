@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class CircularArrayBacker : Node
+public class IteratorCircularArray : Node
 {
 	private int _count = 0;
 	private int _initial_index = 0;

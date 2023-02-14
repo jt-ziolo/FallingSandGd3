@@ -1,10 +1,10 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://scripts/interaction_gravity.gd" type="Script" id=1]
-[ext_resource path="res://grain_types/sand.tres" type="Resource" id=2]
+[ext_resource path="res://elements/sand.tres" type="Resource" id=2]
 
 [resource]
 script = ExtResource( 1 )
 likelihood_down = 1.0
 likelihood_down_to_side = 0.05
-grain_type_self = ExtResource( 2 )
+element_self = ExtResource( 2 )

@@ -4,11 +4,11 @@ extends Resource
 const Direction = preload("res://scripts/direction.gd")
 
 
-func get_grain_type_other() -> Resource:
+func get_element_other() -> Resource:
 	return null
 
 
-func get_grain_type_self() -> Resource:
+func get_element_self() -> Resource:
 	return null
 
 

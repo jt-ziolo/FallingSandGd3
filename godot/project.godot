@@ -14,6 +14,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/brush.gd"
 }, {
+"base": "ColorRect",
+"class": "ColorRectGradient",
+"language": "GDScript",
+"path": "res://scripts/color_rect_gradient.gd"
+}, {
+"base": "ColorRect",
+"class": "ColorRectMouse",
+"language": "GDScript",
+"path": "res://scripts/color_rect_mouse.gd"
+}, {
 "base": "Reference",
 "class": "Direction",
 "language": "GDScript",
@@ -24,15 +34,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/draw.gd"
 }, {
-"base": "ColorRect",
-"class": "GradientColorRect",
-"language": "GDScript",
-"path": "res://scripts/gradient_color_rect.gd"
-}, {
 "base": "Resource",
-"class": "GrainType",
+"class": "Element",
 "language": "GDScript",
-"path": "res://scripts/grain_type.gd"
+"path": "res://scripts/element.gd"
 }, {
 "base": "Node2D",
 "class": "Grid",
@@ -68,20 +73,27 @@ _global_script_classes=[ {
 "class": "InteractionGravity",
 "language": "GDScript",
 "path": "res://scripts/interaction_gravity.gd"
+}, {
+"base": "RichTextLabel",
+"class": "LabelFormatted",
+"language": "GDScript",
+"path": "res://scripts/label_formatted.gd"
 } ]
 _global_script_class_icons={
 "Brush": "",
+"ColorRectGradient": "",
+"ColorRectMouse": "",
 "Direction": "",
 "Draw": "",
-"GradientColorRect": "",
-"GrainType": "",
+"Element": "",
 "Grid": "",
 "GutHookScript": "",
 "GutTest": "",
 "HelperFunctions": "",
 "Interaction": "",
 "InteractionBase": "",
-"InteractionGravity": ""
+"InteractionGravity": "",
+"LabelFormatted": ""
 }
 
 [application]
@@ -113,13 +125,13 @@ paint={
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
-grain_type_previous={
+element_previous={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
 , Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":4,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
-grain_type_next={
+element_next={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
 , Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":5,"pressed":false,"doubleclick":false,"script":null)

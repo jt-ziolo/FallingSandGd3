@@ -7,25 +7,25 @@ extends InteractionBase
 
 export(float, 0, 1) var likelihood_down = 1.0
 export(float, 0, 1) var likelihood_down_to_side = 0.05
-export(Resource) var grain_type_self = null
-export(Resource) var grain_type_other = null
+export(Resource) var element_self = null
+export(Resource) var element_other = null
 
 
-func get_grain_type_self():
-	return grain_type_self
+func get_element_self():
+	return element_self
 
 
-func get_grain_type_other():
-	return grain_type_other
+func get_element_other():
+	return element_other
 
 
 func get_likelihood(p_direction):
 	match p_direction:
-		Direction.DOWN:
+		Direction.SOUTH:
 			return likelihood_down
-		Direction.DOWN_LEFT:
+		Direction.SOUTH_WEST:
 			return likelihood_down_to_side
-		Direction.DOWN_RIGHT:
+		Direction.SOUTH_EAST:
 			return likelihood_down_to_side
 		_:
 			return 0.0
@@ -33,15 +33,15 @@ func get_likelihood(p_direction):
 
 func is_match_direction(p_direction):
 	match p_direction:
-		Direction.DOWN:
+		Direction.SOUTH:
 			return true
-		Direction.DOWN_LEFT:
+		Direction.SOUTH_WEST:
 			return true
-		Direction.DOWN_RIGHT:
+		Direction.SOUTH_EAST:
 			return true
 		_:
 			return false
 
 
 func get_interaction():
-	return [grain_type_other, grain_type_self]
+	return [element_other, element_self]

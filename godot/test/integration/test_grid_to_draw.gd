@@ -8,7 +8,7 @@ var _element: Element
 
 func before_each():
 	_grid = partial_double("res://scripts/grid.gd").new()
-	stub(_grid, "is_valid_point").to_return(true)
+	stub(_grid, "_is_valid_point").to_return(true)
 	_brush = partial_double("res://scripts/brush.gd").new()
 	_draw = partial_double("res://scripts/draw.gd").new()
 	_grid.connect("colors_transmitted", _draw, "_on_Grid_colors_transmitted")

@@ -9,14 +9,18 @@ const IteratorCircularArray = preload("res://scripts/IteratorCircularArray.cs")
 export(Resource) var selected_element
 export(Array, Resource) var elements
 
-var _elements_iterator: IteratorCircularArray = IteratorCircularArray.new()
+var _elements_iterator: IteratorCircularArray
 var _mouse_position: Vector2
 var _last_mouse_position_int = [0 as int, 0 as int]
 
 const BRUSH_SIZE: int = 4
 
 
-func _ready():
+func _init():
+	# Properly add the C# node to the tree so it does not become an orphan
+	_elements_iterator = IteratorCircularArray.new()
+	add_child(_elements_iterator)
+
 	_elements_iterator.StartForArray(elements)
 
 

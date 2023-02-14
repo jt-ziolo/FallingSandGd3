@@ -1,2 +1,2 @@
 #!/bin/bash
-godot -d -s --path ./godot addons/gut/gut_cmdln.gd
+godot -d -s --path ./godot addons/gut/gut_cmdln.gd --verbose

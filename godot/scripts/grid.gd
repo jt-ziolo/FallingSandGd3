@@ -14,7 +14,7 @@ signal colors_transmitted(colors)
 export(Array, Resource) var interactions
 export(bool) var has_floor = true
 
-var _skip_set: HashSetPoint = HashSetPoint.new()
+var _skip_set: HashSetPoint
 var _paint_points: Array = []
 var _selected_type: Element
 var _elements_by_point: Dictionary = {}
@@ -22,7 +22,11 @@ var _grid_area_rect: Rect2
 var _interaction_directions_by_element = {}
 
 
-func _ready():
+func _init():
+	# Properly add the C# node to the tree so it does not become an orphan
+	_skip_set = HashSetPoint.new()
+	add_child(_skip_set)
+
 	_grid_area_rect = get_viewport_rect()
 
 
@@ -51,7 +55,12 @@ func _get_interaction_directions(element):
 		Direction.WEST,
 		Direction.NORTH_WEST,
 	]
+
+	# Properly add the C# node to the tree so it does not become an orphan
+	# We will call queue_free after we are done
 	var applicable_directions = HashSetInt.new()
+	add_child(applicable_directions)
+
 	for interaction in interactions:
 		if interaction.get_element_self() != element:
 			continue
@@ -64,6 +73,8 @@ func _get_interaction_directions(element):
 				)
 				applicable_directions.Add(direction)
 	_interaction_directions_by_element[element] = applicable_directions.AsGodotArray()
+
+	applicable_directions.queue_free()
 	return _interaction_directions_by_element[element]
 
 

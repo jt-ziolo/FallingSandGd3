@@ -27,6 +27,8 @@ func _init():
 	_skip_set = HashSetPoint.new()
 	add_child(_skip_set)
 
+
+func _ready():
 	_grid_area_rect = get_viewport_rect()
 
 

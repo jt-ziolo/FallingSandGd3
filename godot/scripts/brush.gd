@@ -21,6 +21,8 @@ func _init():
 	_elements_iterator = IteratorCircularArray.new()
 	add_child(_elements_iterator)
 
+
+func _ready():
 	_elements_iterator.StartForArray(elements)
 
 

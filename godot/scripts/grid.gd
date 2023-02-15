@@ -11,7 +11,7 @@ const Element = preload("res://scripts/element.gd")
 
 signal colors_transmitted(colors)
 
-export(Array, Resource) var interactions
+var interactions: Array
 export(bool) var has_floor = true
 
 var _skip_set: HashSetPoint
@@ -30,6 +30,24 @@ func _init():
 
 func _ready():
 	_grid_area_rect = get_viewport_rect()
+	# Use Godot.load on all files in the res://interactions directory
+	var interaction_paths = []
+	var dir = Directory.new()
+	if dir.open("res://interactions") == OK:
+		dir.list_dir_begin()
+		var next = dir.get_next()
+		while next != "":
+			if dir.current_is_dir():
+				next = dir.get_next()
+				continue
+			interaction_paths.append(next)
+			next = dir.get_next()
+	dir.list_dir_end()
+	print(interaction_paths)
+	# Load interactions into the interactions array
+	for path in interaction_paths:
+		var next_interaction: InteractionBase = load("res://interactions/{0}".format([path]))
+		interactions.append(next_interaction)
 
 
 func _process_brush_input():

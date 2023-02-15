@@ -93,6 +93,14 @@ Quit: ESC"
 fit_content_height = true
 scroll_active = false
 script = ExtResource( 8 )
+_template_text = "[color={element_color}]{element_name}[/color] ({mouse_position})
+FPS: {fps}
+Grain Count: {grain_count}
+
+Toggle Help: {key_help}
+Cycle Elements: Mouse Scroll or {key_prev}/{key_next}
+Options: {key_options}
+Quit: {key_quit}"
 
 [node name="ColorRectMouse" type="ColorRect" parent="ViewportContainer/Viewport"]
 margin_left = 200.0

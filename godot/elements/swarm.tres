@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource( 1 )
-human_friendly_name = "Spectre"
+human_friendly_name = "Swarm"
 color = Color( 0.376471, 1, 0.517647, 1 )
 viscosity = 0.0

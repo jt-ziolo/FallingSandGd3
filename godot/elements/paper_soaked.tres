@@ -6,4 +6,5 @@
 script = ExtResource( 1 )
 human_friendly_name = "Wet Paper"
 color = Color( 0.529412, 0.576471, 0.662745, 1 )
+is_brush_paintable = false
 viscosity = 1.0

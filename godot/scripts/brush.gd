@@ -8,7 +8,7 @@ signal element_changed(selected_element)
 const IteratorCircularArray = preload("res://scripts/IteratorCircularArray.cs")
 
 export(Resource) var selected_element
-export(Array, Resource) var elements
+var elements: Array
 
 var _elements_iterator: IteratorCircularArray
 var _mouse_position: Vector2
@@ -18,6 +18,7 @@ const BRUSH_SIZE: int = 4
 
 
 func _init():
+	_load_elements()
 	# Properly add the C# node to the tree so it does not become an orphan
 	_elements_iterator = IteratorCircularArray.new()
 	add_child(_elements_iterator)
@@ -26,6 +27,28 @@ func _init():
 func _ready():
 	_elements_iterator.StartForArray(elements)
 	emit_signal("element_changed", selected_element)
+
+
+func _load_elements():
+	# Use Godot.load on all files in the res://elements directory
+	var element_paths = []
+	var dir = Directory.new()
+	if dir.open("res://elements") == OK:
+		dir.list_dir_begin()
+		var next = dir.get_next()
+		while next != "":
+			if dir.current_is_dir():
+				next = dir.get_next()
+				continue
+			element_paths.append(next)
+			next = dir.get_next()
+	dir.list_dir_end()
+	print(element_paths)
+	# Load elements into the elements array
+	for path in element_paths:
+		var next_element: Element = load("res://elements/{0}".format([path]))
+		if next_element.is_brush_paintable:
+			elements.append(next_element)
 
 
 # The paint action is set up in the Godot project settings

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://scripts/draw.gd" type="Script" id=1]
 [ext_resource path="res://scripts/grid.gd" type="Script" id=2]
@@ -11,6 +11,28 @@
 [ext_resource path="res://elements/wall.tres" type="Resource" id=9]
 [ext_resource path="res://elements/water.tres" type="Resource" id=10]
 [ext_resource path="res://interactions/water_fall.tres" type="Resource" id=11]
+[ext_resource path="res://interactions/sand_fall_in_water.tres" type="Resource" id=12]
+[ext_resource path="res://elements/paper.tres" type="Resource" id=13]
+[ext_resource path="res://interactions/fire_rise.tres" type="Resource" id=14]
+[ext_resource path="res://interactions/fire_decay.tres" type="Resource" id=15]
+[ext_resource path="res://interactions/water_soak_paper.tres" type="Resource" id=16]
+[ext_resource path="res://elements/fire.tres" type="Resource" id=17]
+[ext_resource path="res://interactions/fire_spread_paper.tres" type="Resource" id=18]
+[ext_resource path="res://interactions/paper_soaked_spread_paper.tres" type="Resource" id=19]
+[ext_resource path="res://interactions/paper_soaked_dry_air.tres" type="Resource" id=20]
+[ext_resource path="res://interactions/paper_soaked_dry_paper.tres" type="Resource" id=21]
+[ext_resource path="res://interactions/paper_soaked_absorb_water.tres" type="Resource" id=22]
+[ext_resource path="res://elements/oil.tres" type="Resource" id=23]
+[ext_resource path="res://interactions/oil_float_water.tres" type="Resource" id=24]
+[ext_resource path="res://interactions/oil_fall.tres" type="Resource" id=25]
+[ext_resource path="res://interactions/fire_spread_oil.tres" type="Resource" id=26]
+[ext_resource path="res://elements/swarm.tres" type="Resource" id=27]
+[ext_resource path="res://interactions/swarm_move.tres" type="Resource" id=28]
+[ext_resource path="res://interactions/swarm_decay.tres" type="Resource" id=29]
+[ext_resource path="res://elements/lava.tres" type="Resource" id=30]
+[ext_resource path="res://interactions/lava_fall.tres" type="Resource" id=31]
+[ext_resource path="res://interactions/lava_add_fire.tres" type="Resource" id=32]
+[ext_resource path="res://interactions/lava_fall_fire.tres" type="Resource" id=33]
 
 [sub_resource type="ShaderMaterial" id=1]
 
@@ -49,11 +71,11 @@ render_target_update_mode = 3
 [node name="Brush" type="Node2D" parent="ViewportContainer/Viewport"]
 script = ExtResource( 3 )
 selected_element = ExtResource( 4 )
-elements = [ ExtResource( 4 ), ExtResource( 9 ), ExtResource( 10 ) ]
+elements = [ ExtResource( 4 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 17 ), ExtResource( 13 ), ExtResource( 23 ), ExtResource( 27 ), ExtResource( 30 ) ]
 
 [node name="Grid" type="Node2D" parent="ViewportContainer/Viewport"]
 script = ExtResource( 2 )
-interactions = [ ExtResource( 5 ), ExtResource( 11 ) ]
+interactions = [ ExtResource( 5 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 18 ), ExtResource( 16 ), ExtResource( 20 ), ExtResource( 19 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 25 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 29 ), ExtResource( 28 ), ExtResource( 32 ), ExtResource( 31 ), ExtResource( 33 ) ]
 
 [node name="ColorRectGradient" type="ColorRect" parent="ViewportContainer/Viewport"]
 material = SubResource( 1 )

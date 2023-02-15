@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://scripts/interaction.gd" type="Script" id=1]
+[ext_resource path="res://elements/paper_soaked.tres" type="Resource" id=2]
+[ext_resource path="res://elements/paper.tres" type="Resource" id=3]
+
+[resource]
+script = ExtResource( 1 )
+directions = [ 4 ]
+behavior = 2
+element_new = ExtResource( 2 )
+likelihood = 0.4
+element_self = ExtResource( 2 )
+element_other = ExtResource( 3 )

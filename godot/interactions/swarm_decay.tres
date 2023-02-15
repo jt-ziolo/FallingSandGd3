@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://scripts/interaction.gd" type="Script" id=1]
+[ext_resource path="res://elements/swarm.tres" type="Resource" id=2]
+
+[resource]
+script = ExtResource( 1 )
+directions = [ 0, 2, 4, 6 ]
+behavior = 3
+likelihood = 1.0
+element_self = ExtResource( 2 )
+element_other = ExtResource( 2 )

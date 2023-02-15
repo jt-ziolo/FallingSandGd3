@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://scripts/interaction.gd" type="Script" id=1]
+[ext_resource path="res://elements/fire.tres" type="Resource" id=2]
+
+[resource]
+script = ExtResource( 1 )
+directions = [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+behavior = 1
+likelihood = 0.2
+element_self = ExtResource( 2 )

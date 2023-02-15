@@ -15,7 +15,7 @@ func before_each():
 	_element_b = Element.new()
 	_element_b.human_friendly_name = "B"
 	_interaction = Interaction.new()
-	_interaction.direction = Direction.SOUTH
+	_interaction.directions = [Direction.SOUTH]
 	_interaction.behavior = Interaction.Behavior.REPLACE_OTHER
 	_interaction.element_new = _element_b
 	_interaction.likelihood = 1.0
@@ -35,7 +35,7 @@ func test_replace_other():
 		_grid._elements_by_point[_start_point] = _element_a
 		_grid._interaction_directions_by_element.clear()
 		_grid.interactions.clear()
-		_interaction.direction = direction
+		_interaction.directions = [direction]
 		_grid.interactions.append(_interaction)
 
 		var offset = _grid.direction_offsets[direction]
@@ -57,7 +57,7 @@ func test_replace_self():
 		_grid._elements_by_point[_start_point] = _element_a
 		_grid._interaction_directions_by_element.clear()
 		_grid.interactions.clear()
-		_interaction.direction = direction
+		_interaction.directions = [direction]
 		_grid.interactions.append(_interaction)
 
 		var offset = _grid.direction_offsets[direction]
@@ -80,7 +80,7 @@ func test_swap_no_new():
 		_grid._elements_by_point[_start_point] = _element_a
 		_grid._interaction_directions_by_element.clear()
 		_grid.interactions.clear()
-		_interaction.direction = direction
+		_interaction.directions = [direction]
 		_grid.interactions.append(_interaction)
 
 		var offset = _grid.direction_offsets[direction]
@@ -103,7 +103,7 @@ func test_swap_with_new():
 		_grid._elements_by_point[_start_point] = _element_a
 		_grid._interaction_directions_by_element.clear()
 		_grid.interactions.clear()
-		_interaction.direction = direction
+		_interaction.directions = [direction]
 		_grid.interactions.append(_interaction)
 
 		var offset = _grid.direction_offsets[direction]
@@ -126,7 +126,7 @@ func test_replace_both():
 		_grid._elements_by_point[_start_point] = _element_a
 		_grid._interaction_directions_by_element.clear()
 		_grid.interactions.clear()
-		_interaction.direction = direction
+		_interaction.directions = [direction]
 		_grid.interactions.append(_interaction)
 
 		var offset = _grid.direction_offsets[direction]

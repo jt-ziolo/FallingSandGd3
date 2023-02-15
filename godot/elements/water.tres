@@ -6,4 +6,4 @@
 script = ExtResource( 1 )
 human_friendly_name = "Water"
 color = Color( 0.37, 0.517, 1, 1 )
-viscosity = 0.5
+viscosity = 0.2

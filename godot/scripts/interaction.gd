@@ -12,7 +12,7 @@ extends InteractionBase
 # TODO: add more
 enum Behavior { SWAP, REPLACE_SELF, REPLACE_OTHER, REPLACE_BOTH }
 
-export var direction = Direction.SOUTH
+export(Array, int, "N", "NE", "E", "SE", "S", "SW", "W", "NW") var directions = [Direction.SOUTH]
 export(Behavior) var behavior = Behavior.SWAP
 export(Resource) var element_new = null
 export(float, 0, 1) var likelihood = 1.0
@@ -33,7 +33,7 @@ func get_likelihood(p_direction):
 
 
 func is_match_direction(p_direction):
-	return p_direction == direction
+	return p_direction in directions
 
 
 func get_interaction():

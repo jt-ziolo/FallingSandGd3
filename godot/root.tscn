@@ -111,6 +111,7 @@ mouse_filter = 2
 color = Color( 1, 1, 1, 0.588235 )
 script = ExtResource( 7 )
 
+[connection signal="element_changed" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/LabelTopLeft" method="_on_Brush_element_changed"]
 [connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/LabelTopLeft" method="_on_Brush_mouse_moved"]
 [connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/ColorRectMouse" method="_on_Brush_mouse_moved"]
 [connection signal="painted" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/Grid" method="_on_Brush_painted"]

@@ -3,6 +3,7 @@ class_name Brush
 
 signal painted(paint_coordinates, selected_element)
 signal mouse_moved(_mouse_position)
+signal element_changed(selected_element)
 
 const IteratorCircularArray = preload("res://scripts/IteratorCircularArray.cs")
 
@@ -24,6 +25,7 @@ func _init():
 
 func _ready():
 	_elements_iterator.StartForArray(elements)
+	emit_signal("element_changed", selected_element)
 
 
 # The paint action is set up in the Godot project settings
@@ -56,7 +58,10 @@ func _scroll_element(do_go_forward):
 		index = _elements_iterator.GoForwardOnce()
 	else:
 		index = _elements_iterator.GoBackwardOnce()
+	var last_element = selected_element
 	selected_element = elements[index]
+	if selected_element != last_element:
+		emit_signal("element_changed", selected_element)
 
 
 func _unhandled_input(event):

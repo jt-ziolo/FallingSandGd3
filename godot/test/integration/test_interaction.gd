@@ -24,6 +24,7 @@ func before_each():
 	_grid = partial_double("res://scripts/grid.gd").new()
 	stub(_grid, "_process_brush_input").to_do_nothing()
 	stub(_grid, "_process_sliding").to_do_nothing()
+	stub(_grid, "_process_lifetimes").to_do_nothing()
 	stub(_grid, "_get_colors").to_do_nothing()
 	stub(_grid, "_is_valid_point").to_return(true)
 

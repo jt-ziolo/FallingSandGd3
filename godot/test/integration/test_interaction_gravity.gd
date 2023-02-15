@@ -16,6 +16,7 @@ func before_each():
 	_grid = partial_double("res://scripts/grid.gd").new()
 	stub(_grid, "_process_brush_input").to_do_nothing()
 	stub(_grid, "_process_sliding").to_do_nothing()
+	stub(_grid, "_process_lifetimes").to_do_nothing()
 	stub(_grid, "_get_colors").to_do_nothing()
 	stub(_grid, "_is_valid_point").to_return(true)
 
@@ -43,6 +44,7 @@ func test_down_only():
 
 	var value = _grid._elements_by_point.values()[0]
 	assert_eq(value, _element)
+
 
 func test_down_and_to_side():
 	_grid._elements_by_point.clear()

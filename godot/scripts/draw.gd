@@ -2,6 +2,7 @@ extends Node2D
 class_name Draw
 
 var _color_coords = {}
+var _was_empty_last_frame = false
 
 
 func _draw():
@@ -13,6 +14,10 @@ func _draw():
 
 func _on_Grid_colors_transmitted(colors: Dictionary):
 	if colors.empty():
-		return
+		if _was_empty_last_frame:
+			return
+		_was_empty_last_frame = true
+	else:
+		_was_empty_last_frame = false
 	_color_coords = colors
 	update()

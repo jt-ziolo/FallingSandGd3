@@ -98,6 +98,24 @@ func _get_interaction_directions(element):
 	return _interaction_directions_by_element[element]
 
 
+# Iterate through every point and determine randomly whether that point's
+# element will change into its decay product
+func _process_lifetimes():
+	_skip_set.Clear()
+	for point_self in _elements_by_point.keys():
+		var element = _elements_by_point[point_self]
+		if element.lifetime_frames < 0:
+			continue
+		var frequency_of_decay = 1.0 / (element.lifetime_frames as int)
+		var random_0_to_1 = rand_range(0, 1)
+		if random_0_to_1 > frequency_of_decay:
+			continue
+		if element.lifetime_replaced_by == null:
+			_elements_by_point.erase(point_self)
+			continue
+		_elements_by_point[point_self] = element.lifetime_replaced_by
+
+
 # For element types which slide, visit each point and if it is bordered on e.g.
 # SOUTH/SOUTH_RIGHT/SOUTH_LEFT, move LEFT or RIGHT. Alternate between the two possible
 # move directions depending on the current row. If neither are open, do
@@ -258,6 +276,7 @@ func _get_colors():
 
 
 func _process(delta):
+	_process_lifetimes()
 	_process_brush_input()
 	_process_sliding()
 	_process_interactions()

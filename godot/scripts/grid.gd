@@ -186,11 +186,30 @@ var direction_offsets = {
 	Direction.NORTH_WEST: [-1, -1],
 }
 
+var _keys_stack: Array
+var _new_elements_by_point: Dictionary
+
 
 # Interactions include movement. Each interaction is an instruction for what to
 # do when one element meets another element (or no element) in some given direction.
 func _process_interactions():
-	_skip_set.Clear()
+	if _keys_stack.empty():
+		var keys = _elements_by_point.keys()
+		if keys.size() == 0:
+			return
+		if keys.size() <= 3:
+			_keys_stack = [keys]
+		else:
+			keys.sort_custom(HelperFunctions, "sort_ascending")
+			_keys_stack = [
+				keys.slice(0, keys.size(), 3),
+				keys.slice(1, keys.size(), 3),
+				keys.slice(2, keys.size(), 3),
+			]
+		_skip_set.Clear()
+		#_new_elements_by_point = _elements_by_point.duplicate(true)
+
+	var keys = _keys_stack.pop_back()
 
 	# Will iterate through _elements_by_point and visit each boundary
 	# (direction) between the current element and its neighbor. If there is an
@@ -201,8 +220,7 @@ func _process_interactions():
 	# for the current element this frame, otherwise interactions along other
 	# directions are allowed to occur
 
-	var new_elements_by_point: Dictionary = _elements_by_point.duplicate(true)
-	for point_self in _elements_by_point.keys():
+	for point_self in keys:
 		if _skip_set.Contains(point_self[0], point_self[1]):
 			continue
 		var element_self = _elements_by_point[point_self]
@@ -256,14 +274,15 @@ func _process_interactions():
 					# from being changed again this frame
 					_skip_set.Add(point_other[0], point_other[1])
 				if output[0] != null:
-					new_elements_by_point[point_self] = output[0]
+					_elements_by_point[point_self] = output[0]
 				else:
-					new_elements_by_point.erase(point_self)
+					_elements_by_point.erase(point_self)
 				if output[1] != null:
-					new_elements_by_point[point_other] = output[1]
+					_elements_by_point[point_other] = output[1]
 				else:
-					new_elements_by_point.erase(point_other)
-	_elements_by_point = new_elements_by_point
+					_elements_by_point.erase(point_other)
+	# if _keys_stack.empty():
+	# _elements_by_point = _new_elements_by_point
 
 
 # Get colors to be drawn based on the elements in the grid
@@ -276,12 +295,13 @@ func _get_colors():
 
 
 func _process(delta):
-	_process_lifetimes()
-	_process_brush_input()
-	_process_sliding()
 	_process_interactions()
 	var colors = _get_colors()
 	emit_signal("colors_transmitted", colors)
+	if _keys_stack.empty():
+		_process_lifetimes()
+		_process_brush_input()
+		_process_sliding()
 
 
 func _on_Brush_painted(p_paint_points, selected_element):

@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource( 1 )
 human_friendly_name = "Oil"
-color = Color( 0.411765, 0.196078, 0.109804, 1 )
+color = Color( 0, 0, 0, 1 )
 is_brush_paintable = true
 viscosity = 0.5
+lifetime_frames = -1

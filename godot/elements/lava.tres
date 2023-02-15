@@ -8,3 +8,4 @@ human_friendly_name = "Lava"
 color = Color( 0.890196, 0.498039, 0.121569, 1 )
 is_brush_paintable = true
 viscosity = 0.8
+lifetime_frames = -1

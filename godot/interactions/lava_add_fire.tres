@@ -9,5 +9,5 @@ script = ExtResource( 1 )
 directions = [ 0, 1, 7, 2, 6 ]
 behavior = 2
 element_new = ExtResource( 2 )
-likelihood = 1.0
+likelihood = 0.111
 element_self = ExtResource( 3 )

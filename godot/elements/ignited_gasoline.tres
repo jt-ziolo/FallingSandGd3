@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://scripts/element.gd" type="Script" id=1]
+[ext_resource path="res://elements/fire.tres" type="Resource" id=2]
+
+[resource]
+script = ExtResource( 1 )
+human_friendly_name = "Ignited Gasoline"
+color = Color( 0.368627, 0.282353, 0.27451, 1 )
+is_brush_paintable = false
+viscosity = 0.3
+lifetime_frames = 200
+lifetime_replaced_by = ExtResource( 2 )

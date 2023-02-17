@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://elements/ignited_gasoline.tres" type="Resource" id=1]
+[ext_resource path="res://scripts/interaction.gd" type="Script" id=2]
+[ext_resource path="res://elements/gasoline.tres" type="Resource" id=3]
+
+[resource]
+script = ExtResource( 2 )
+directions = [ 0, 1, 7, 2, 6 ]
+behavior = 2
+element_new = ExtResource( 1 )
+likelihood = 0.7
+element_self = ExtResource( 1 )
+element_other = ExtResource( 3 )

@@ -5,7 +5,7 @@ class_name Draw
 
 # var _color_coords_history = []
 # var _was_empty_last_frame = false
-# var _do_clear = true
+var _do_clear = true
 var _colors = {}
 
 
@@ -13,10 +13,10 @@ func _draw():
 	for pos in _colors:
 		var color = _colors[pos]
 		draw_primitive([pos], [color], [Vector2.ONE])
-	# if _do_clear:
-	# draw_rect(get_viewport().get_visible_rect(), Color.black)
-	# _do_clear = false
-	# return
+	if _do_clear:
+		var viewport = get_viewport()
+		viewport.render_target_clear_mode = viewport.CLEAR_MODE_ONLY_NEXT_FRAME
+		_do_clear = false
 	# var counter = 1.0
 	# for _color_coords in _color_coords_history:
 	# for pos in _color_coords.keys():
@@ -39,4 +39,10 @@ func _on_Grid_colors_transmitted(colors: Dictionary):
 	# if _color_coords_history.size() == MAX_HISTORY_LENGTH:
 	# _color_coords_history.pop_front()
 	# _color_coords_history.append(colors)
+	update()
+
+func _on_Grid_colors_clear():
+	_do_clear = true
+	var viewport = get_viewport()
+	viewport.render_target_clear_mode = viewport.CLEAR_MODE_ALWAYS
 	update()

@@ -177,6 +177,7 @@ _template_text = "[font=style/CustomFontSmall.tres][center][color=white]([color=
 [connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/ColorRectMouse" method="_on_Brush_mouse_moved"]
 [connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/LabelTopLeft" method="_on_Brush_mouse_moved"]
 [connection signal="painted" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/Grid" method="_on_Brush_painted"]
+[connection signal="colors_clear" from="ViewportContainer/Viewport/Grid" to="ViewportContainer/Viewport/Draw" method="_on_Grid_colors_clear"]
 [connection signal="colors_transmitted" from="ViewportContainer/Viewport/Grid" to="ViewportContainer/Viewport/Draw" method="_on_Grid_colors_transmitted"]
 [connection signal="pressed" from="ViewportContainer/TextureRectPause/Panel/ButtonQuit" to="." method="_on_ButtonQuit_pressed"]
 [connection signal="pressed" from="ViewportContainer/TextureRectPause/Panel/ButtonClearScreen" to="ViewportContainer/Viewport/Grid" method="_on_ButtonClearScreen_pressed"]

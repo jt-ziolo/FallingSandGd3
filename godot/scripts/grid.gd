@@ -10,9 +10,10 @@ const Direction = preload("res://scripts/direction.gd")
 const Element = preload("res://scripts/element.gd")
 
 signal colors_transmitted(colors)
+signal colors_clear()
 
 var interactions: Array
-export(bool) var has_floor = true
+export(bool) var _has_floor = true
 
 var _skip_set: HashSetPoint
 var _draw_remove_set: HashSetPoint
@@ -325,8 +326,11 @@ func _on_Brush_painted(p_paint_points, selected_element):
 
 
 func _on_ButtonClearScreen_pressed():
-	pass # Replace with function body.
+	_draw_update_set.Clear()
+	for point in _elements_by_point.keys():
+		_update_element_at_point(point, null)
+	emit_signal("colors_clear")
 
 
 func _on_CheckBoxFloor_toggled(button_pressed):
-	pass # Replace with function body.
+	_has_floor = !_has_floor

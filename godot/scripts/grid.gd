@@ -11,6 +11,7 @@ const Element = preload("res://scripts/element.gd")
 
 signal colors_transmitted(colors)
 signal colors_clear()
+signal grain_count_changed()
 
 var interactions: Array
 export(bool) var _has_floor = true
@@ -321,6 +322,7 @@ func _process(delta):
 	_process_lifetimes()
 	_process_brush_input()
 	_process_sliding()
+	emit_signal("grain_count_changed", _elements_by_point.keys().size())
 	var colors = _get_colors()
 	emit_signal("colors_transmitted", colors)
 

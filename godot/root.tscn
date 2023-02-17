@@ -78,12 +78,12 @@ script = ExtResource( 7 )
 
 [node name="LabelTopLeft" type="RichTextLabel" parent="ViewportContainer"]
 anchor_right = 1.0
-margin_left = 10.0
-margin_top = 10.0
+margin_left = 3.0
+margin_top = 5.0
 grow_horizontal = 2
 mouse_filter = 2
 bbcode_enabled = true
-bbcode_text = "[font=style/CustomFontSmall.tres][color={element_color}]{element_name}[/color] (Mouse Scroll or {key_prev}/{key_next})
+bbcode_text = "[font=style/CustomFontSmaller.tres][color={element_color}]{element_name}[/color] (Mouse Scroll or {key_prev}/{key_next})
 ({mouse_position})
 Grain Count: {grain_count}
 FPS: {fps}[/font]"
@@ -95,9 +95,9 @@ FPS: {fps}"
 fit_content_height = true
 scroll_active = false
 script = ExtResource( 8 )
-_template_text = "[font=style/CustomFontSmall.tres][color={element_color}]{element_name}[/color] (Mouse Scroll or {key_prev}/{key_next})
+_template_text = "[font=style/CustomFontSmaller.tres][color={element_color}]{element_name}[/color] (Mouse Scroll or {key_prev}/{key_next})
+Count: {grain_count}
 ({mouse_position})
-Grain Count: {grain_count}
 FPS: {fps}[/font]"
 
 [node name="PauseMenu" type="TextureRect" parent="ViewportContainer"]
@@ -179,6 +179,7 @@ _template_text = "[font=style/CustomFontSmall.tres][center][color=white]([color=
 [connection signal="painted" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/Grid" method="_on_Brush_painted"]
 [connection signal="colors_clear" from="ViewportContainer/Viewport/Grid" to="ViewportContainer/Viewport/Draw" method="_on_Grid_colors_clear"]
 [connection signal="colors_transmitted" from="ViewportContainer/Viewport/Grid" to="ViewportContainer/Viewport/Draw" method="_on_Grid_colors_transmitted"]
+[connection signal="grain_count_changed" from="ViewportContainer/Viewport/Grid" to="ViewportContainer/LabelTopLeft" method="_on_Grid_grain_count_changed"]
 [connection signal="pause_toggled" from="ViewportContainer/PauseMenu" to="ViewportContainer/Viewport/Grid" method="_on_PauseMenu_pause_toggled"]
 [connection signal="pressed" from="ViewportContainer/PauseMenu/Panel/ButtonQuit" to="." method="_on_ButtonQuit_pressed"]
 [connection signal="pressed" from="ViewportContainer/PauseMenu/Panel/ButtonClearScreen" to="ViewportContainer/Viewport/Grid" method="_on_ButtonClearScreen_pressed"]

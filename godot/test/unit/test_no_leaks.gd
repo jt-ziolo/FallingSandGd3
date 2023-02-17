@@ -1,6 +1,13 @@
 extends GutTest
 
-var resource_path = ["res://scripts/grid.gd", "res://scripts/brush.gd", "res://scripts/draw.gd"]
+var resource_path = [
+	"res://scripts/grid.gd", 
+	"res://scripts/brush.gd", 
+	"res://scripts/draw.gd", 
+	"res://scripts/color_rect_mouse.gd",
+	"res://scripts/color_rect_gradient.gd",
+	"res://scripts/label_formatted.gd",
+]
 
 
 func test_node(params = use_parameters(resource_path)):

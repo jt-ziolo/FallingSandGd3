@@ -15,6 +15,8 @@ var interactions: Array
 export(bool) var has_floor = true
 
 var _skip_set: HashSetPoint
+var _draw_remove_set: HashSetPoint
+var _draw_update_set: HashSetPoint
 var _paint_points: Array = []
 var _selected_type: Element
 var _elements_by_point: Dictionary = {}
@@ -26,6 +28,10 @@ func _init():
 	# Properly add the C# node to the tree so it does not become an orphan
 	_skip_set = HashSetPoint.new()
 	add_child(_skip_set)
+	_draw_remove_set = HashSetPoint.new()
+	add_child(_draw_remove_set)
+	_draw_update_set = HashSetPoint.new()
+	add_child(_draw_update_set)
 
 
 func _ready():
@@ -52,10 +58,32 @@ func _ready():
 
 func _process_brush_input():
 	for point in _paint_points:
-		if not _is_valid_point(point):
-			continue
-		_elements_by_point[point] = _selected_type
+		_update_element_at_point(point, _selected_type)
 	_paint_points.clear()
+
+
+func _update_element_at_point(point, update_to):
+	if not _is_valid_point(point):
+		return
+	if not _elements_by_point.has(point):
+		if update_to == null:
+			return
+		_elements_by_point[point] = update_to
+		_draw_update_set.Add(point[0], point[1])
+		_draw_remove_set.Remove(point[0], point[1])
+		_skip_set.Add(point[0], point[1])
+		return
+	if _elements_by_point[point] == update_to:
+		return
+	if update_to == null:
+		_elements_by_point.erase(point)
+		_draw_remove_set.Add(point[0], point[1])
+		_draw_update_set.Remove(point[0], point[1])
+		return
+	_elements_by_point[point] = update_to
+	_draw_update_set.Add(point[0], point[1])
+	_draw_remove_set.Remove(point[0], point[1])
+	_skip_set.Add(point[0], point[1])
 
 
 func _is_valid_point(point):
@@ -101,7 +129,6 @@ func _get_interaction_directions(element):
 # Iterate through every point and determine randomly whether that point's
 # element will change into its decay product
 func _process_lifetimes():
-	_skip_set.Clear()
 	for point_self in _elements_by_point.keys():
 		var element = _elements_by_point[point_self]
 		if element.lifetime_frames < 0:
@@ -111,9 +138,11 @@ func _process_lifetimes():
 		if random_0_to_1 > frequency_of_decay:
 			continue
 		if element.lifetime_replaced_by == null:
-			_elements_by_point.erase(point_self)
+			_update_element_at_point(point_self, null)
+			# _elements_by_point.erase(point_self)
 			continue
-		_elements_by_point[point_self] = element.lifetime_replaced_by
+		_update_element_at_point(point_self, element.lifetime_replaced_by)
+		# _elements_by_point[point_self] = element.lifetime_replaced_by
 
 
 # For element types which slide, visit each point and if it is bordered on e.g.
@@ -121,7 +150,6 @@ func _process_lifetimes():
 # move directions depending on the current row. If neither are open, do
 # nothing.
 func _process_sliding():
-	_skip_set.Clear()
 	for point_self in _elements_by_point.keys():
 		if _skip_set.Contains(point_self[0], point_self[1]):
 			continue
@@ -151,7 +179,6 @@ func _process_sliding():
 		if is_valid_left:
 			if is_valid_right:
 				var slide_offset = -1
-				# Choose based upon the row, alternating for even vs. odd rows
 				var random_0_or_1 = randi() % 2
 				if random_0_or_1 == 0:
 					slide_offset = 1
@@ -161,18 +188,17 @@ func _process_sliding():
 		else:
 			point_slide = [point_self[0] + 1, point_self[1]]
 		# Bottom
-		var offsets = [[-1, 1], [0, 1], [1, 1]]
-		var is_surrounded = true
+		var offsets = [[0, 1]]  #[[-1, 1], [0, 1], [1, 1]]
+		var same_as_below = true
 		for offset in offsets:
 			point_other = [point_self[0] + offset[0], point_self[1] + offset[1]]
 			if !_is_valid_point(point_other):
 				continue
 			if not point_other in _elements_by_point:
-				is_surrounded = false
-		if is_surrounded:
-			_elements_by_point[point_slide] = element
-			_elements_by_point.erase(point_self)
-			_skip_set.Add(point_slide[0], point_slide[1])
+				same_as_below = false
+		if same_as_below:
+			_update_element_at_point(point_slide, element)
+			_update_element_at_point(point_self, null)
 
 
 var direction_offsets = {
@@ -193,23 +219,7 @@ var _new_elements_by_point: Dictionary
 # Interactions include movement. Each interaction is an instruction for what to
 # do when one element meets another element (or no element) in some given direction.
 func _process_interactions():
-	if _keys_stack.empty():
-		var keys = _elements_by_point.keys()
-		if keys.size() == 0:
-			return
-		if keys.size() <= 3:
-			_keys_stack = [keys]
-		else:
-			keys.sort_custom(HelperFunctions, "sort_ascending")
-			_keys_stack = [
-				keys.slice(0, keys.size(), 3),
-				keys.slice(1, keys.size(), 3),
-				keys.slice(2, keys.size(), 3),
-			]
-		_skip_set.Clear()
-		#_new_elements_by_point = _elements_by_point.duplicate(true)
-
-	var keys = _keys_stack.pop_back()
+	var keys = _elements_by_point.keys()
 
 	# Will iterate through _elements_by_point and visit each boundary
 	# (direction) between the current element and its neighbor. If there is an
@@ -269,18 +279,17 @@ func _process_interactions():
 					# the directions loop, because we don't want to allow
 					# multiple changes of one element on the same frame
 					force_directions_loop_break = true
-				if output[1] != element_other:
-					# The element type in the other square changed, so prevent it
-					# from being changed again this frame
-					_skip_set.Add(point_other[0], point_other[1])
+				# if output[1] != element_other:
+				# The element type in the other square changed, so prevent it
+				# from being changed again this frame
 				if output[0] != null:
-					_elements_by_point[point_self] = output[0]
+					_update_element_at_point(point_self, output[0])
 				else:
-					_elements_by_point.erase(point_self)
+					_update_element_at_point(point_self, null)
 				if output[1] != null:
-					_elements_by_point[point_other] = output[1]
+					_update_element_at_point(point_other, output[1])
 				else:
-					_elements_by_point.erase(point_other)
+					_update_element_at_point(point_other, null)
 	# if _keys_stack.empty():
 	# _elements_by_point = _new_elements_by_point
 
@@ -288,20 +297,26 @@ func _process_interactions():
 # Get colors to be drawn based on the elements in the grid
 func _get_colors():
 	var color_points = {}
-	for point in _elements_by_point.keys():
-		var element: Element = _elements_by_point[point]
+	var iterate_next: PoolVector2Array = _draw_update_set.GetAsVec2Array()
+	for point in iterate_next:
+		var element: Element = _elements_by_point[[point.x as int, point.y as int]]
 		color_points[point] = element.color
+	iterate_next = _draw_remove_set.GetAsVec2Array()
+	for point in iterate_next:
+		color_points[point] = Color.black
 	return color_points
 
 
 func _process(delta):
+	_draw_update_set.Clear()
+	_draw_remove_set.Clear()
+	_skip_set.Clear()
 	_process_interactions()
+	_process_lifetimes()
+	_process_brush_input()
+	_process_sliding()
 	var colors = _get_colors()
 	emit_signal("colors_transmitted", colors)
-	if _keys_stack.empty():
-		_process_lifetimes()
-		_process_brush_input()
-		_process_sliding()
 
 
 func _on_Brush_painted(p_paint_points, selected_element):

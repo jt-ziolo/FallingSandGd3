@@ -23,6 +23,7 @@ var _selected_type: Element
 var _elements_by_point: Dictionary = {}
 var _grid_area_rect: Rect2
 var _interaction_directions_by_element = {}
+var _paused = false
 
 
 func _init():
@@ -311,6 +312,8 @@ func _get_colors():
 
 
 func _process(delta):
+	if _paused:
+		return
 	_draw_update_set.Clear()
 	_draw_remove_set.Clear()
 	_skip_set.Clear()
@@ -323,16 +326,25 @@ func _process(delta):
 
 
 func _on_Brush_painted(p_paint_points, selected_element):
+	if _paused:
+		return
 	_paint_points = p_paint_points
 	_selected_type = selected_element
 
 
 func _on_ButtonClearScreen_pressed():
+	_paused = false
 	_draw_update_set.Clear()
 	for point in _elements_by_point.keys():
 		_update_element_at_point(point, null)
+	_process(0)
 	emit_signal("colors_clear")
+	_paused = true
 
 
 func _on_CheckBoxFloor_toggled(button_pressed):
 	_has_floor = !_has_floor
+
+
+func _on_PauseMenu_pause_toggled(is_paused):
+	_paused = is_paused

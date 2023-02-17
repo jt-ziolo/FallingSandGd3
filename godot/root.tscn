@@ -4,7 +4,7 @@
 [ext_resource path="res://scripts/grid.gd" type="Script" id=2]
 [ext_resource path="res://scripts/brush.gd" type="Script" id=3]
 [ext_resource path="res://elements/eraser.tres" type="Resource" id=4]
-[ext_resource path="res://scripts/performance_settings.gd" type="Script" id=5]
+[ext_resource path="res://scripts/root.gd" type="Script" id=5]
 [ext_resource path="res://scripts/pause_menu.gd" type="Script" id=6]
 [ext_resource path="res://scripts/color_rect_mouse.gd" type="Script" id=7]
 [ext_resource path="res://scripts/label_formatted.gd" type="Script" id=8]
@@ -100,7 +100,7 @@ _template_text = "[font=style/CustomFontSmall.tres][color={element_color}]{eleme
 Grain Count: {grain_count}
 FPS: {fps}[/font]"
 
-[node name="TextureRectPause" type="TextureRect" parent="ViewportContainer"]
+[node name="PauseMenu" type="TextureRect" parent="ViewportContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -108,7 +108,7 @@ mouse_filter = 2
 texture = SubResource( 3 )
 script = ExtResource( 6 )
 
-[node name="Panel" type="Panel" parent="ViewportContainer/TextureRectPause"]
+[node name="Panel" type="Panel" parent="ViewportContainer/PauseMenu"]
 modulate = Color( 0.576471, 1, 0.921569, 1 )
 anchor_left = 0.5
 anchor_top = 0.2
@@ -117,14 +117,14 @@ anchor_bottom = 0.8
 grow_horizontal = 2
 rect_min_size = Vector2( 180, 0 )
 
-[node name="ButtonQuit" type="Button" parent="ViewportContainer/TextureRectPause/Panel"]
+[node name="ButtonQuit" type="Button" parent="ViewportContainer/PauseMenu/Panel"]
 anchor_left = 0.1
 anchor_top = 0.7
 anchor_right = 0.5
 anchor_bottom = 0.7
 text = "Quit"
 
-[node name="ButtonClearScreen" type="Button" parent="ViewportContainer/TextureRectPause/Panel"]
+[node name="ButtonClearScreen" type="Button" parent="ViewportContainer/PauseMenu/Panel"]
 anchor_left = 0.5
 anchor_top = 0.4
 anchor_right = 0.5
@@ -136,7 +136,7 @@ grow_horizontal = 2
 rect_min_size = Vector2( 140, 0 )
 text = "Clear Screen"
 
-[node name="CheckBoxFloor" type="CheckBox" parent="ViewportContainer/TextureRectPause/Panel"]
+[node name="CheckBoxFloor" type="CheckBox" parent="ViewportContainer/PauseMenu/Panel"]
 anchor_left = 0.75
 anchor_top = 0.7
 anchor_right = 0.75
@@ -147,7 +147,7 @@ grow_horizontal = 0
 pressed = true
 text = "Floor"
 
-[node name="LabelTitle" type="RichTextLabel" parent="ViewportContainer/TextureRectPause"]
+[node name="LabelTitle" type="RichTextLabel" parent="ViewportContainer/PauseMenu"]
 anchor_right = 1.0
 margin_top = 20.0
 grow_horizontal = 2
@@ -159,7 +159,7 @@ text = "Paused"
 fit_content_height = true
 scroll_active = false
 
-[node name="LabelSubtitle" type="RichTextLabel" parent="ViewportContainer/TextureRectPause"]
+[node name="LabelSubtitle" type="RichTextLabel" parent="ViewportContainer/PauseMenu"]
 anchor_right = 1.0
 margin_top = 50.0
 grow_horizontal = 2
@@ -179,6 +179,7 @@ _template_text = "[font=style/CustomFontSmall.tres][center][color=white]([color=
 [connection signal="painted" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/Grid" method="_on_Brush_painted"]
 [connection signal="colors_clear" from="ViewportContainer/Viewport/Grid" to="ViewportContainer/Viewport/Draw" method="_on_Grid_colors_clear"]
 [connection signal="colors_transmitted" from="ViewportContainer/Viewport/Grid" to="ViewportContainer/Viewport/Draw" method="_on_Grid_colors_transmitted"]
-[connection signal="pressed" from="ViewportContainer/TextureRectPause/Panel/ButtonQuit" to="." method="_on_ButtonQuit_pressed"]
-[connection signal="pressed" from="ViewportContainer/TextureRectPause/Panel/ButtonClearScreen" to="ViewportContainer/Viewport/Grid" method="_on_ButtonClearScreen_pressed"]
-[connection signal="toggled" from="ViewportContainer/TextureRectPause/Panel/CheckBoxFloor" to="ViewportContainer/Viewport/Grid" method="_on_CheckBoxFloor_toggled"]
+[connection signal="pause_toggled" from="ViewportContainer/PauseMenu" to="ViewportContainer/Viewport/Grid" method="_on_PauseMenu_pause_toggled"]
+[connection signal="pressed" from="ViewportContainer/PauseMenu/Panel/ButtonQuit" to="." method="_on_ButtonQuit_pressed"]
+[connection signal="pressed" from="ViewportContainer/PauseMenu/Panel/ButtonClearScreen" to="ViewportContainer/Viewport/Grid" method="_on_ButtonClearScreen_pressed"]
+[connection signal="toggled" from="ViewportContainer/PauseMenu/Panel/CheckBoxFloor" to="ViewportContainer/Viewport/Grid" method="_on_CheckBoxFloor_toggled"]

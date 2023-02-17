@@ -322,3 +322,11 @@ func _process(delta):
 func _on_Brush_painted(p_paint_points, selected_element):
 	_paint_points = p_paint_points
 	_selected_type = selected_element
+
+
+func _on_ButtonClearScreen_pressed():
+	pass # Replace with function body.
+
+
+func _on_CheckBoxFloor_toggled(button_pressed):
+	pass # Replace with function body.

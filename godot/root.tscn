@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/draw.gd" type="Script" id=1]
 [ext_resource path="res://scripts/grid.gd" type="Script" id=2]
 [ext_resource path="res://scripts/brush.gd" type="Script" id=3]
 [ext_resource path="res://elements/eraser.tres" type="Resource" id=4]
 [ext_resource path="res://scripts/performance_settings.gd" type="Script" id=5]
+[ext_resource path="res://scripts/PauseMenu.gd" type="Script" id=6]
 [ext_resource path="res://scripts/color_rect_mouse.gd" type="Script" id=7]
 [ext_resource path="res://scripts/label_formatted.gd" type="Script" id=8]
 [ext_resource path="res://canvas_item_material.tres" type="Material" id=9]
@@ -100,10 +101,12 @@ Grain Count: {grain_count}
 FPS: {fps}[/font]"
 
 [node name="TextureRectPause" type="TextureRect" parent="ViewportContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 texture = SubResource( 3 )
+script = ExtResource( 6 )
 
 [node name="Panel" type="Panel" parent="ViewportContainer/TextureRectPause"]
 modulate = Color( 0.576471, 1, 0.921569, 1 )
@@ -133,7 +136,7 @@ grow_horizontal = 2
 rect_min_size = Vector2( 140, 0 )
 text = "Clear Screen"
 
-[node name="CheckBox" type="CheckBox" parent="ViewportContainer/TextureRectPause/Panel"]
+[node name="CheckBoxFloor" type="CheckBox" parent="ViewportContainer/TextureRectPause/Panel"]
 anchor_left = 0.75
 anchor_top = 0.7
 anchor_right = 0.75
@@ -144,7 +147,7 @@ grow_horizontal = 0
 pressed = true
 text = "Floor"
 
-[node name="LabelTopLeft" type="RichTextLabel" parent="ViewportContainer/TextureRectPause"]
+[node name="LabelTitle" type="RichTextLabel" parent="ViewportContainer/TextureRectPause"]
 anchor_right = 1.0
 margin_top = 20.0
 grow_horizontal = 2
@@ -156,20 +159,25 @@ text = "Paused"
 fit_content_height = true
 scroll_active = false
 
-[node name="LabelTopLeft2" type="RichTextLabel" parent="ViewportContainer/TextureRectPause"]
+[node name="LabelSubtitle" type="RichTextLabel" parent="ViewportContainer/TextureRectPause"]
 anchor_right = 1.0
 margin_top = 50.0
 grow_horizontal = 2
 mouse_filter = 2
 bbcode_enabled = true
-bbcode_text = "[font=style/CustomFontSmall.tres][center][color=white](ESC to Unpause)[/color][/center][/font]"
+bbcode_text = "[font=style/CustomFontSmall.tres][center][color=white]([color=lime]ESC[/color] to Unpause)[/color][/center][/font]"
 tab_size = 12
 text = "(ESC to Unpause)"
 fit_content_height = true
 scroll_active = false
+script = ExtResource( 8 )
+_template_text = "[font=style/CustomFontSmall.tres][center][color=white]([color=lime]{key_pause}[/color] to Unpause)[/color][/center][/font]"
 
 [connection signal="element_changed" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/LabelTopLeft" method="_on_Brush_element_changed"]
 [connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/ColorRectMouse" method="_on_Brush_mouse_moved"]
 [connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/LabelTopLeft" method="_on_Brush_mouse_moved"]
 [connection signal="painted" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/Grid" method="_on_Brush_painted"]
 [connection signal="colors_transmitted" from="ViewportContainer/Viewport/Grid" to="ViewportContainer/Viewport/Draw" method="_on_Grid_colors_transmitted"]
+[connection signal="pressed" from="ViewportContainer/TextureRectPause/Panel/ButtonQuit" to="." method="_on_ButtonQuit_pressed"]
+[connection signal="pressed" from="ViewportContainer/TextureRectPause/Panel/ButtonClearScreen" to="ViewportContainer/Viewport/Grid" method="_on_ButtonClearScreen_pressed"]
+[connection signal="toggled" from="ViewportContainer/TextureRectPause/Panel/CheckBoxFloor" to="ViewportContainer/Viewport/Grid" method="_on_CheckBoxFloor_toggled"]

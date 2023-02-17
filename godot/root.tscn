@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/draw.gd" type="Script" id=1]
 [ext_resource path="res://scripts/grid.gd" type="Script" id=2]
@@ -10,6 +10,17 @@
 [ext_resource path="res://canvas_item_material.tres" type="Material" id=9]
 
 [sub_resource type="ShaderMaterial" id=1]
+
+[sub_resource type="Gradient" id=2]
+interpolation_mode = 2
+offsets = PoolRealArray( 0, 0.0285714, 0.102857, 0.817143, 0.922857, 1 )
+colors = PoolColorArray( 0, 0, 0, 0, 0, 0, 0, 0.392157, 0.235294, 0.254902, 0.239216, 0.705882, 0.184314, 0.223529, 0.25098, 0.705882, 0, 0, 0, 0.392157, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture2D" id=3]
+gradient = SubResource( 2 )
+width = 296
+height = 184
+fill_to = Vector2( 0, 1 )
 
 [node name="Root" type="Control"]
 anchor_right = 1.0
@@ -71,37 +82,94 @@ margin_top = 10.0
 grow_horizontal = 2
 mouse_filter = 2
 bbcode_enabled = true
-bbcode_text = "Sand (0, 0)
-FPS: 60.0
-Grain Count: ...
-
-Toggle Help: H
-Cycle Elements: Mouse Scroll or Q/E
-Options: RMB
-Quit: ESC"
+bbcode_text = "[font=style/CustomFontSmall.tres][color={element_color}]{element_name}[/color] (Mouse Scroll or {key_prev}/{key_next})
+({mouse_position})
+Grain Count: {grain_count}
+FPS: {fps}[/font]"
 tab_size = 12
-text = "Sand (0, 0)
-FPS: 60.0
-Grain Count: ...
-
-Toggle Help: H
-Cycle Elements: Mouse Scroll or Q/E
-Options: RMB
-Quit: ESC"
+text = "{element_name} (Mouse Scroll or {key_prev}/{key_next})
+({mouse_position})
+Grain Count: {grain_count}
+FPS: {fps}"
 fit_content_height = true
 scroll_active = false
 script = ExtResource( 8 )
-_template_text = "[color={element_color}]{element_name}[/color] ({mouse_position})
-FPS: {fps}
+_template_text = "[font=style/CustomFontSmall.tres][color={element_color}]{element_name}[/color] (Mouse Scroll or {key_prev}/{key_next})
+({mouse_position})
 Grain Count: {grain_count}
+FPS: {fps}[/font]"
 
-Toggle Help: {key_help}
-Cycle Elements: Mouse Scroll or {key_prev}/{key_next}
-Options: {key_options}
-Quit: {key_quit}"
+[node name="TextureRectPause" type="TextureRect" parent="ViewportContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = SubResource( 3 )
+
+[node name="Panel" type="Panel" parent="ViewportContainer/TextureRectPause"]
+modulate = Color( 0.576471, 1, 0.921569, 1 )
+anchor_left = 0.5
+anchor_top = 0.2
+anchor_right = 0.5
+anchor_bottom = 0.8
+grow_horizontal = 2
+rect_min_size = Vector2( 180, 0 )
+
+[node name="ButtonQuit" type="Button" parent="ViewportContainer/TextureRectPause/Panel"]
+anchor_left = 0.1
+anchor_top = 0.7
+anchor_right = 0.5
+anchor_bottom = 0.7
+text = "Quit"
+
+[node name="ButtonClearScreen" type="Button" parent="ViewportContainer/TextureRectPause/Panel"]
+anchor_left = 0.5
+anchor_top = 0.4
+anchor_right = 0.5
+anchor_bottom = 0.4
+margin_left = -60.0
+margin_right = 60.0
+margin_bottom = 20.0
+grow_horizontal = 2
+rect_min_size = Vector2( 140, 0 )
+text = "Clear Screen"
+
+[node name="CheckBox" type="CheckBox" parent="ViewportContainer/TextureRectPause/Panel"]
+anchor_left = 0.75
+anchor_top = 0.7
+anchor_right = 0.75
+anchor_bottom = 0.7
+margin_right = 24.0
+margin_bottom = 24.0
+grow_horizontal = 0
+pressed = true
+text = "Floor"
+
+[node name="LabelTopLeft" type="RichTextLabel" parent="ViewportContainer/TextureRectPause"]
+anchor_right = 1.0
+margin_top = 20.0
+grow_horizontal = 2
+mouse_filter = 2
+bbcode_enabled = true
+bbcode_text = "[font=style/CustomFont.tres][center][color=yellow]Paused[/color][/center][/font]"
+tab_size = 12
+text = "Paused"
+fit_content_height = true
+scroll_active = false
+
+[node name="LabelTopLeft2" type="RichTextLabel" parent="ViewportContainer/TextureRectPause"]
+anchor_right = 1.0
+margin_top = 50.0
+grow_horizontal = 2
+mouse_filter = 2
+bbcode_enabled = true
+bbcode_text = "[font=style/CustomFontSmall.tres][center][color=white](ESC to Unpause)[/color][/center][/font]"
+tab_size = 12
+text = "(ESC to Unpause)"
+fit_content_height = true
+scroll_active = false
 
 [connection signal="element_changed" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/LabelTopLeft" method="_on_Brush_element_changed"]
-[connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/LabelTopLeft" method="_on_Brush_mouse_moved"]
 [connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/ColorRectMouse" method="_on_Brush_mouse_moved"]
+[connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/LabelTopLeft" method="_on_Brush_mouse_moved"]
 [connection signal="painted" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/Viewport/Grid" method="_on_Brush_painted"]
 [connection signal="colors_transmitted" from="ViewportContainer/Viewport/Grid" to="ViewportContainer/Viewport/Draw" method="_on_Grid_colors_transmitted"]

@@ -253,6 +253,8 @@ func _process_interactions():
 				break
 			var offset = direction_offsets[direction]
 			var point_other = [point_self[0] + offset[0], point_self[1] + offset[1]]
+			if !_has_floor and point_other[1] == int(_grid_area_rect.end.y):
+				_update_element_at_point(point_self, null)
 			if !_is_valid_point(point_other):
 				continue
 			if _skip_set.Contains(point_other[0], point_other[1]):

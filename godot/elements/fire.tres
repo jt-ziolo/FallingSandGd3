@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource( 1 )
 human_friendly_name = "Fire"
-color = Color( 0.890196, 0.309804, 0.231373, 1 )
+color = Color( 0.831373, 0.231373, 0.231373, 1 )
 is_brush_paintable = true
 viscosity = 1.0
 lifetime_frames = 3

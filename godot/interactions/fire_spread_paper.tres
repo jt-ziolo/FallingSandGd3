@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource( 1 )
-directions = [ 0, 2, 4, 6, 1, 7 ]
+directions = [ 0, 2, 4, 6, 1, 7, 5, 3 ]
 behavior = 2
 element_new = ExtResource( 2 )
 likelihood = 1.0

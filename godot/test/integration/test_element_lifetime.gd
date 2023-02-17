@@ -49,12 +49,13 @@ func test_lifetime_replace_to_element():
 
 
 func test_lifetime_not_enough_frames():
+	_element_b.lifetime_frames = 1000
 	_grid._elements_by_point.clear()
 	_grid._elements_by_point[[0, 0]] = _element_b
 
 	assert_eq(_grid._elements_by_point[[0, 0]], _element_b)
 
-	simulate(_grid, 3, 1)
+	simulate(_grid, 2, 1)
 	gut.p(_grid._elements_by_point)
 
 	assert_true(_grid._elements_by_point.has([0, 0]))

@@ -56,6 +56,14 @@ selected_element = ExtResource( 4 )
 position = Vector2( -3, 0 )
 script = ExtResource( 2 )
 
+[node name="ColorRectMouse" type="ColorRect" parent="ViewportContainer"]
+margin_right = -4.0
+margin_bottom = -4.0
+rect_min_size = Vector2( 4, 4 )
+mouse_filter = 2
+color = Color( 0.831373, 0.494118, 0.494118, 0.588235 )
+script = ExtResource( 7 )
+
 [node name="LabelTopLeft" type="RichTextLabel" parent="ViewportContainer"]
 anchor_right = 1.0
 margin_left = 10.0
@@ -91,13 +99,6 @@ Toggle Help: {key_help}
 Cycle Elements: Mouse Scroll or {key_prev}/{key_next}
 Options: {key_options}
 Quit: {key_quit}"
-
-[node name="ColorRectMouse" type="ColorRect" parent="ViewportContainer"]
-margin_right = 4.0
-margin_bottom = 4.0
-mouse_filter = 2
-color = Color( 0.831373, 0.494118, 0.494118, 0.588235 )
-script = ExtResource( 7 )
 
 [connection signal="element_changed" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/LabelTopLeft" method="_on_Brush_element_changed"]
 [connection signal="mouse_moved" from="ViewportContainer/Viewport/Brush" to="ViewportContainer/LabelTopLeft" method="_on_Brush_mouse_moved"]

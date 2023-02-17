@@ -15,6 +15,7 @@ var _mouse_position: Vector2
 var _last_mouse_position_int = [0 as int, 0 as int]
 
 const BRUSH_SIZE: int = 4
+const MOUSE_INTERPOLATION_FACTOR: float = 0.3
 
 
 func _init():
@@ -52,10 +53,11 @@ func _load_elements():
 
 
 # The paint action is set up in the Godot project settings
-func _process(_delta):
+func _physics_process(_delta):
 	var _mouse_position_int = [_mouse_position.x as int, _mouse_position.y as int]
 	_mouse_position_int = [_mouse_position_int[0] - BRUSH_SIZE, _mouse_position_int[1] - BRUSH_SIZE]
 	if _mouse_position_int != _last_mouse_position_int:
+		_mouse_position_int = HelperFunctions.interpolate_between_points(_last_mouse_position_int, _mouse_position_int, MOUSE_INTERPOLATION_FACTOR)
 		emit_signal("mouse_moved", _mouse_position_int)
 		_last_mouse_position_int = _mouse_position_int
 	if Input.is_action_just_released("element_next"):

@@ -8,4 +8,4 @@ human_friendly_name = "Eraser"
 color = Color( 0.882353, 0.466667, 1, 1 )
 is_brush_paintable = true
 viscosity = 1.0
-lifetime_frames = 1
+lifetime_frames = 2

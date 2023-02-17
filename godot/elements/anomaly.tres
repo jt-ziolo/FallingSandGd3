@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://scripts/element.gd" type="Script" id=1]
+[ext_resource path="res://elements/eraser.tres" type="Resource" id=2]
+
+[resource]
+script = ExtResource( 1 )
+human_friendly_name = "Anomaly"
+color = Color( 0.321569, 0.203922, 0.65098, 1 )
+is_brush_paintable = true
+viscosity = 0.0
+lifetime_frames = 9
+lifetime_replaced_by = ExtResource( 2 )

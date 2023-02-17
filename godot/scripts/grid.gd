@@ -236,6 +236,8 @@ func _process_interactions():
 	for point_self in keys:
 		if _skip_set.Contains(point_self[0], point_self[1]):
 			continue
+		if not _elements_by_point.has(point_self):
+			continue # TODO: Fix
 		var element_self = _elements_by_point[point_self]
 		if element_self == null:
 			continue

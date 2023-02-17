@@ -5,5 +5,7 @@
 [resource]
 script = ExtResource( 1 )
 human_friendly_name = "Wall"
-color = Color( 0.760784, 0.760784, 0.760784, 1 )
+color = Color( 0.592157, 0.592157, 0.592157, 1 )
+is_brush_paintable = true
 viscosity = 1.0
+lifetime_frames = -1

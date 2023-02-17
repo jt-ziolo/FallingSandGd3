@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://scripts/interaction.gd" type="Script" id=1]
+[ext_resource path="res://elements/oil.tres" type="Resource" id=2]
+[ext_resource path="res://elements/fire.tres" type="Resource" id=3]
+[ext_resource path="res://elements/lava.tres" type="Resource" id=4]
+
+[resource]
+script = ExtResource( 1 )
+directions = [ 2, 0, 6, 4 ]
+behavior = 2
+element_new = ExtResource( 3 )
+likelihood = 1.0
+element_self = ExtResource( 4 )
+element_other = ExtResource( 2 )

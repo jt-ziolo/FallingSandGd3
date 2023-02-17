@@ -8,3 +8,4 @@ human_friendly_name = "Swarm"
 color = Color( 0.376471, 1, 0.517647, 1 )
 is_brush_paintable = true
 viscosity = 0.0
+lifetime_frames = 150

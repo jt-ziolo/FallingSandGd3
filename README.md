@@ -62,7 +62,7 @@ Also find/replace on https://example.com
 
 ## Play
 
-See Releases for Windows and Linux executable files.
+See [Releases](https://github.com/jt-ziolo/FallingSandGd3/releases/tag/v1.0.0) for Windows and Linux executable files.
 
 ![FallingSandGd3 Screen Shot][product-screenshot-2]
 

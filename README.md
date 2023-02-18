@@ -37,47 +37,33 @@ Also find/replace on https://example.com
 -->
 
 
-<!-- PROJECT LOGO 
+<!-- PROJECT LOGO -->
   <br />
   <a href="https://github.com/jt-ziolo/FallingSandGd3">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.png" alt="Logo" width="412" height="84">
   </a>
 
   <h3 align="center">Falling Sand Gd3</h3>
 
   <p align="center">
-    project_description
+    A simple falling-sand game created using Godot3. Watch grains of various types of elements interact with each other in complicated ways. A learning project inspired by falling-sand games of the mid-to-late 2000s.
     <br />
     <a href="https://github.com/jt-ziolo/FallingSandGd3">Play</a>
     · 
     <a href="https://github.com/jt-ziolo/FallingSandGd3/issues">Report Bug</a>
     ·
     <a href="https://github.com/jt-ziolo/FallingSandGd3/issues">Request Feature</a>
-  </p>-->
+  </p>
 </div>
-
-
-
-<!-- ABOUT THE PROJECT -->
-<h1 align="center">Falling Sand Gd3</h1>
-
-project_description_full
 
 ![FallingSandGd3 Screen Shot][product-screenshot]
 
 
 
-### Built With
-
-* [Godot Game Engine 3.5](https://github.com/godotengine/godot/releases/tag/3.5.1-stable)
-
-FallingSandGd3 was built with the .NET version of Godot3 (providing C# support).
-
-
-
 ## Play
 
-See Releases for Windows and Linux executable files. <!-- TODO The HTML5 version is available to play here: [FallingSandGd3 Web][play-url] -->
+See Releases for Windows and Linux executable files.
+
 ![FallingSandGd3 Screen Shot][product-screenshot-2]
 
 
@@ -107,7 +93,7 @@ This project was developed using a Godot 3.5 standalone install on Ubuntu 22.04.
 
 ## Future Plans
 
-This project was created as a learning project; there are no plans for further development at this time. However, I will monitor [open issues](https://github.com/jt-ziolo/FallingSandGd3/issues) for any proposed features and open issues and may revisit this project when time allows.
+This project was created as a learning project; there are no plans for further development at this time. However, I will monitor [open issues](https://github.com/jt-ziolo/FallingSandGd3/issues) for any proposed features and issues and may revisit this project when time allows.
 
 
 

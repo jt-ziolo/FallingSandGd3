@@ -1,5 +1,6 @@
 # Project-specific ignores
 .github/
+export/
 
 # Godot-specific ignores
 .import/

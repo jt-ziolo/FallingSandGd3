@@ -37,7 +37,7 @@ Also find/replace on https://example.com
 -->
 
 
-<!-- PROJECT LOGO -->
+<!-- PROJECT LOGO 
   <br />
   <a href="https://github.com/jt-ziolo/FallingSandGd3">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
@@ -48,72 +48,38 @@ Also find/replace on https://example.com
   <p align="center">
     project_description
     <br />
-    <a href="https://github.com/jt-ziolo/FallingSandGd3">View Demo</a>
-    ·
+    <a href="https://github.com/jt-ziolo/FallingSandGd3">Play</a>
+    · 
     <a href="https://github.com/jt-ziolo/FallingSandGd3/issues">Report Bug</a>
     ·
     <a href="https://github.com/jt-ziolo/FallingSandGd3/issues">Request Feature</a>
-  </p>
+  </p>-->
 </div>
 
 
 
-<!-- TABLE OF CONTENTS -->
-<!-- Only implement the TOC for project README pages that need it.
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
--->
-
-
 <!-- ABOUT THE PROJECT -->
-## About The Project
-
-[![FallingSandGd3 Screen Shot][product-screenshot]]
+<h1 align="center">Falling Sand Gd3</h1>
 
 project_description_full
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+![FallingSandGd3 Screen Shot][product-screenshot]
 
 
 
 ### Built With
 
-* [![Godot3][Godot Game Engine 3.5]](https://github.com/godotengine/godot/releases/tag/3.5.1-stable)
+* [Godot Game Engine 3.5](https://github.com/godotengine/godot/releases/tag/3.5.1-stable)
 
 FallingSandGd3 was built with the .NET version of Godot3 (providing C# support).
-  
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 ## Play
 
 See Releases for Windows and Linux executable files. <!-- TODO The HTML5 version is available to play here: [FallingSandGd3 Web][play-url] -->
-[![FallingSandGd3 Screen Shot][product-screenshot-2]]
+![FallingSandGd3 Screen Shot][product-screenshot-2]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -137,26 +103,17 @@ This project was developed using a Godot 3.5 standalone install on Ubuntu 22.04.
 4. Download the GUT (Godot Unit Test) addon v7.4.1 from Godot's built-in AssetLib, or get it at [https://github.com/bitwes/Gut/releases/tag/v7.4.1](https://github.com/bitwes/Gut/releases/tag/v7.4.1), AssetLib places the addon in `./godot/addons/gut/`
 5. Shell and batch scripts to run GUT tests are included in `FallingSandGd3/`. See the GUT GitHub repo wiki for additional information on how to configure these scripts.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## Future Plans
+
+This project was created as a learning project; there are no plans for further development at this time. However, I will monitor [open issues](https://github.com/jt-ziolo/FallingSandGd3/issues) for any proposed features and open issues and may revisit this project when time allows.
 
 
 
-<!-- ROADMAP -->
-
-## Roadmap
-
-This project was created as a learning project; there are no plans for further development at this time. See the [open issues](https://github.com/jt-ziolo/FallingSandGd3/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -166,10 +123,7 @@ JT Ziolo - ziolojt@gmail.com
 
 Project Link: [https://github.com/jt-ziolo/FallingSandGd3](https://github.com/jt-ziolo/FallingSandGd3)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-<!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
 * [Godot Docs - 3.5 branch](https://docs.godotengine.org/en/3.5/)
@@ -200,4 +154,4 @@ Project Link: [https://github.com/jt-ziolo/FallingSandGd3](https://github.com/jt
 -->
 <!-- TODO [play-url]: https://example.com -->
 [product-screenshot]: images/screenshot.png
-[product-screenshot-2]: images/screenshot.png
+[product-screenshot-2]: images/screenshot-2.png
